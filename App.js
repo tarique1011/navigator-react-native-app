@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { createStackNavigator, 
         createBottomTabNavigator, 
-        createAppContainer,
-        createDrawerNavigator } 
+        createAppContainer } 
         from 'react-navigation';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { LogInScreen, SignUpScreen, HelpScreen, SuccessScreen } from './src';
@@ -29,6 +28,7 @@ const TabNavigator = createBottomTabNavigator({
     }
     },
     {
+      initialRouteName: 'Success',
       tabBarOptions: {
           activeTintColor: '#000',
           inactiveTintColor: '#fff',
@@ -56,14 +56,14 @@ const AppNavigator = createStackNavigator({
 {
   defaultNavigationOptions: {
     headerStyle: {
-            backgroundColor: '#ff9a3d'
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-            fontFamily: 'Roboto',
-            fontWeight: 'bold',
-            fontSize: 22
-            },
+      backgroundColor: '#ff9a3d'
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontFamily: 'Roboto',
+      fontWeight: 'bold',
+      fontSize: 22
+    },
   }
 });
 

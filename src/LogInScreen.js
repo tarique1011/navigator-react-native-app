@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Image, TextInput, ImageBackground, KeyboardAvoidingView, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 class LogInScreen extends Component {
     static navigationOptions ={
@@ -10,76 +9,87 @@ class LogInScreen extends Component {
 
     render() {
         return (
-            <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ImageBackground 
-                source={require('./images/burger.jpg')}
-                imageStyle={{ resizeMode: 'cover' }}
-                style={{ width: '100%', height: '100%' }}
-                >
-                    <View style={styles.cover} />
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={styles.text}>Food24</Text>
+            <KeyboardAwareScrollView 
+                contentContainerStyle={{ flexGrow: 1, 
+                                        justifyContent: 'center', 
+                                        alignItems: 'center' }}
+            >
+                    <View 
+                        style={{ flex: 1, 
+                                width: '100%', 
+                                backgroundColor: '#33445B', 
+                                alignItems: 'center', 
+                                justifyContent: 'center' }}
+                    >
+                        <Text style={styles.text}>Punchh</Text>
                         <TextInput 
-                        style={styles.input} 
-                        placeholder='Enter Email'
+                            style={styles.input} 
+                            placeholder='Enter Email'
+                            placeholderTextColor='#fff'
                         />
                         <TextInput 
-                        style={styles.input} 
-                        placeholder='Enter Password'
+                            style={styles.input} 
+                            placeholder='Enter Password'
+                            placeholderTextColor='#fff'
                         />
-                        <TouchableOpacity
-                            name="facebook" 
+                        <TouchableOpacity 
                             style={styles.button} 
-                            onPress={() => this.props.navigation.navigate('Success')}
+                            onPress={() => this.props.navigation.navigate('Tab')}
                         >
                             <Text style={styles.buttonText}>
-                            Sign in
+                                Sign In
                             </Text>
                         </TouchableOpacity>
-                        <View style={{ marginTop: 15, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#000000', fontSize: 20 }}>If you don't have an account </Text>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('SignUp')}>  
-                                <Text style={{ color: '#000000', fontSize: 20, fontWeight: 'bold', fontFamily: 'sans-serif' }}>Sign up </Text>
+                        <View 
+                            style={{ marginTop: 15, 
+                                    flexDirection: 'row', 
+                                    justifyContent: 'center',
+                                    alignItems: 'center' }}
+                        >
+                            <Text 
+                                style={{ color: '#fff', 
+                                        fontSize: 20 }}
+                            >If you don't have an account </Text>
+                            <TouchableOpacity 
+                                onPress={() => this.props.navigation.navigate('SignUp')}
+                            >  
+                                <Text 
+                                    style={{ color: '#ff9a3d', 
+                                    fontSize: 20, 
+                                    fontWeight: 'bold', 
+                                    fontFamily: 'sans-serif' }}
+                                >Sign up </Text>
                             </TouchableOpacity>
-                            <Text style={{ color: '#000000', fontSize: 20 }}> here.</Text>
+                            <Text style={{ color: '#fff', fontSize: 20 }}>here.</Text>
                         </View>
                     </View>
-                </ImageBackground>
             </KeyboardAwareScrollView>
         );
     }
 }
 
 const styles = {
-    cover: { 
-        position: 'absolute', 
-        top: 0,    
-        left: 0, 
-        right: 0, 
-        bottom: 0, 
-        opacity: 0.2, 
-        backgroundColor: 'white'
-    },
     text: {
         color: '#ffffff', 
         fontSize: 50, 
         alignSelf: 'center', 
         // marginLeft: '5%',
-        textShadowColor: 'rgba(0, 0, 0, 1)',
+        textShadowColor: 'rgba(0, 0, 0, .75)',
         textShadowOffset: { width: -1, height: 2 },
         textShadowRadius: 5,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif'
+        fontFamily: 'Futura'
     },
     input: {
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
+        opacity: 0.7,
         height: 60,
         width: '90%',
         marginHorizontal: '5%',
         marginTop: 20,
         borderColor: 'lightgray',
-        borderWidth: 3,
-        borderRadius: 10,
+        borderBottomWidth: 3,
+        borderRadius: 3,
         fontSize: 20,
         shadowColor: 'rgba(0,0,0,.75)',
         shadowOffset: { width: -1, height: 1 },
@@ -89,12 +99,14 @@ const styles = {
     buttonText: {
         color: '#ffffff',
         alignSelf: 'center',
-        fontSize: 25
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: 'Roboto'
     },
     button: {
         alignSelf: 'center',
-        backgroundColor: '#000',
-        borderRadius: 10,
+        backgroundColor: '#ff9a3d',
+        borderRadius: 40,
         height: 60,
         width: '50%',
         marginTop: 20,
