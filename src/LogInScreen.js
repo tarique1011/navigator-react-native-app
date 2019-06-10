@@ -10,6 +10,7 @@ class LogInScreen extends Component {
     render() {
         return (
             <KeyboardAwareScrollView 
+                keyboardShouldPersistTaps='handled'
                 contentContainerStyle={{ flexGrow: 1, 
                                         justifyContent: 'center', 
                                         alignItems: 'center' }}
@@ -23,11 +24,13 @@ class LogInScreen extends Component {
                     >
                         <Text style={styles.text}>Punchh</Text>
                         <TextInput 
+                            underlineColorAndroid='#fff'
                             style={styles.input} 
                             placeholder='Enter Email'
                             placeholderTextColor='#fff'
                         />
                         <TextInput 
+                            underlineColorAndroid='#fff'
                             style={styles.input} 
                             placeholder='Enter Password'
                             placeholderTextColor='#fff'
@@ -87,14 +90,11 @@ const styles = {
         width: '90%',
         marginHorizontal: '5%',
         marginTop: 20,
-        borderColor: 'lightgray',
-        borderBottomWidth: 3,
-        borderRadius: 3,
         fontSize: 20,
         shadowColor: 'rgba(0,0,0,.75)',
         shadowOffset: { width: -1, height: 1 },
-        shadowRadius: 10
-
+        shadowRadius: 10,
+        color: '#fff'
     },
     buttonText: {
         color: '#ffffff',

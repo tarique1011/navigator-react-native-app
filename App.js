@@ -4,6 +4,7 @@ import { createStackNavigator,
         createAppContainer } 
         from 'react-navigation';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { LayoutAnimation, UIManager } from 'react-native';
 import { LogInScreen, SignUpScreen, HelpScreen, SuccessScreen } from './src';
 
 
