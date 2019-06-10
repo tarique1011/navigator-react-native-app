@@ -4,50 +4,70 @@ import { createStackNavigator,
         createAppContainer,
         createDrawerNavigator } 
         from 'react-navigation';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { LogInScreen, SignUpScreen, HelpScreen, SuccessScreen } from './src';
 
 
-const LogInStack = createStackNavigator({
-  LogIn: LogInScreen,
-  Success: SuccessScreen
-});
-
-const SignUpStack = createStackNavigator({
-  SignUp: SignUpScreen
-});
-
 const TabNavigator = createBottomTabNavigator({
-    LogIn: LogInStack,
-    SignUp: SignUpStack,
-    Help: HelpScreen
+    Success: {
+      screen: SuccessScreen,
+      navigationOptions: {
+        tabBarLabel: 'User',
+        tabBarIcon: ({ tintColor }) => (
+            <FontAwesome5 name={'user'} size={25} color={tintColor} solid />
+        )
+      }
+    },
+    Help: {
+      screen: HelpScreen,
+      navigationOptions: {
+        tabBarLabel: 'Support',
+        tabBarIcon: ({ tintColor }) => (
+            <FontAwesome5 name='comments' size={25} color={tintColor} solid />
+        )
+      }
+    }
     },
     {
       tabBarOptions: {
-          activeTintColor: '#fff',
+          activeTintColor: '#000',
+          inactiveTintColor: '#fff',
           labelStyle: {
             fontSize: 15,
           },
           style: {
-            backgroundColor: 'blue',
+            backgroundColor: '#ff9a3d',
           }
       }
     }
 );
 
-const DrawerNavigator = createDrawerNavigator({
-  Login: {
-    screen: LogInStack
-  },
-  SignUp: {
-    screen: SignUpStack
-  },
+const AppNavigator = createStackNavigator({
+  LogIn: LogInScreen,
+  SignUp: SignUpScreen,
   Tab: {
-    screen: TabNavigator
+    screen: TabNavigator,
+    navigationOptions: {
+      header: null
+    }
+  }
+  
+},
+{
+  defaultNavigationOptions: {
+    headerStyle: {
+            backgroundColor: '#ff9a3d'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+            fontFamily: 'Roboto',
+            fontWeight: 'bold',
+            fontSize: 22
+            },
   }
 });
 
-const AppContainer = createAppContainer(DrawerNavigator);
+const AppContainer = createAppContainer(AppNavigator);
 
 export default class App extends Component {
   render() {
