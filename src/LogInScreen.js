@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { userUpdate } from './actions';
 
 class LogInScreen extends Component {
     static navigationOptions ={
             title: 'Sign In'
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            password: ''
+        };
+    }
 
     render() {
         return (
@@ -28,16 +38,26 @@ class LogInScreen extends Component {
                             style={styles.input} 
                             placeholder='Enter Email'
                             placeholderTextColor='#fff'
+                            onChangeText={(email) => this.setState({ email })}
+                            value={this.state.email}
                         />
                         <TextInput 
                             underlineColorAndroid='#fff'
                             style={styles.input} 
                             placeholder='Enter Password'
                             placeholderTextColor='#fff'
+                            onChangeText={(password) => this.setState({ password })}
+                            calue={this.state.password}
                         />
                         <TouchableOpacity 
                             style={styles.button} 
-                            onPress={() => this.props.navigation.navigate('Tab')}
+                            onPress={() => {
+                                this.props.navigation.navigate('Tab');
+                                this.props.userUpdate({
+                                    email: this.state.email,
+                                    password: this.state.password
+                                });
+                            }}
                         >
                             <Text style={styles.buttonText}>
                                 Sign In
@@ -115,4 +135,10 @@ const styles = {
     }
 };
 
-export { LogInScreen };
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    };
+}
+
+export default connect(mapStateToProps, { userUpdate })(LogInScreen);

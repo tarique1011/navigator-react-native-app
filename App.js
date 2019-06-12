@@ -4,9 +4,10 @@ import { createStackNavigator,
         createAppContainer } 
         from 'react-navigation';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { LayoutAnimation, UIManager } from 'react-native';
-import { LogInScreen, SignUpScreen, HelpScreen, SuccessScreen } from './src';
-
+import { HelpScreen } from './src';
+import SuccessScreen from './src/Success';
+import SignUpScreen from './src/SignUpScreen';
+import LogInScreen from './src/LogInScreen';
 
 const TabNavigator = createBottomTabNavigator({
     Success: {

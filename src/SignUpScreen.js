@@ -1,15 +1,28 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { userUpdate } from './actions';
 
-export default class SignUpScreen extends Component {
+
+class SignUpScreen extends Component {
     static navigationOptions = {
         title: 'Sign Up'
     }
 
+    constructor(props) {
+        super(props);
+        this.state = { 
+            name: '',
+            dob: '',
+            email: '',
+            password: ''
+        };
+    }
+
     render() {
         return (
-            <KeyboardAwareScrollView 
+            <KeyboardAwareScrollView
                 keyboardShouldPersistTaps='handled'
                 contentContainerStyle={{ flexGrow: 1, 
                                         justifyContent: 'center', 
@@ -28,28 +41,46 @@ export default class SignUpScreen extends Component {
                             style={styles.input} 
                             placeholder='First Name'
                             placeholderTextColor='#fff'
+                            onChangeText={(name) => this.setState({ name })}
+                            value={this.state.name}                            
                         />
+                        
                         <TextInput 
                             underlineColorAndroid='#fff'
                             style={styles.input} 
                             placeholder='Date Of Birth'
                             placeholderTextColor='#fff'
+                            onChangeText={(dob) => this.setState({ dob })}
+                            value={this.state.dob}
                         />
                         <TextInput 
                             underlineColorAndroid='#fff'
                             style={styles.input} 
                             placeholder='Email'
                             placeholderTextColor='#fff'
+                            onChangeText={(email) => this.setState({ email })}
+                            value={this.state.email}
                         />
                         <TextInput 
                             underlineColorAndroid='#fff'
                             style={styles.input} 
                             placeholder='Password'
+                            secureTextEntry
                             placeholderTextColor='#fff'
+                            onChangeText={(password) => this.setState({ password })}
+                            value={this.state.password}
                         />
                         <TouchableOpacity 
                             style={styles.button} 
-                            onPress={() => this.props.navigation.navigate('Success')}
+                            onPress={() => { 
+                                            this.props.navigation.navigate('Success'); 
+                                            this.props.userUpdate({ 
+                                                name: this.state.name,
+                                                dob: this.state.dob,
+                                                email: this.state.email,
+                                                password: this.state.password
+                                            }); 
+                                            }}
                         >
                             <Text style={styles.buttonText}>
                                 Sign Up
@@ -115,4 +146,9 @@ const styles = {
     }
 };
 
-export { SignUpScreen };
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    };
+}
+export default connect(mapStateToProps, { userUpdate })(SignUpScreen);
