@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Image, Button } from 'react-native';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 
 class SuccessScreen extends Component {
     static navigationOptions = {
@@ -13,22 +14,12 @@ class SuccessScreen extends Component {
             button: true
         };
     }
-    renderImage= () => {
-        if (this.state.button) {
-            return (
-                <Button 
-                    title='Show me Batman' 
-                    onPress={() => this.setState({ button: false })}
-                />
-            );
-        } else {
-            return (
-                <Image 
-                    style={styles.image}
-                    source={require('./images/batman.jpg')} 
-                />
-            );
-        }
+
+    handleLogOut = () => {
+        firebase
+            .auth()
+            .signOut()
+            .then(() => this.props.navigation.navigate('LogIn'));
     }
 
     render() {
@@ -57,7 +48,10 @@ class SuccessScreen extends Component {
 
             </View>
             <View style={imageCard}>
-                {this.renderImage()}
+                <Button 
+                    title="Log out  "
+                    onPress={this.handleLogOut}
+                />
             </View>    
         </View>
     );
@@ -68,11 +62,7 @@ const styles = {
     headerCard: { 
         width: '97%', 
         height: '40%', 
-        borderWidth: 2, 
-        borderColor: 'black', 
-        borderRadius: 5, 
-        padding: 5, 
-        backgroundColor: '#ff9a3d',
+        padding: 5,
         justifyContent: 'center',
         alignItems: 'center',
         margin: 5
@@ -86,10 +76,6 @@ const styles = {
         width: '97%',
         margin: 5,
         height: '55%',
-        backgroundColor: '#ff9a3d',
-        borderWidth: 2, 
-        borderColor: 'black', 
-        borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center'
     },

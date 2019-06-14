@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { userUpdate } from './actions';
 
@@ -8,7 +9,7 @@ import { userUpdate } from './actions';
 class SignUpScreen extends Component {
     static navigationOptions = {
         title: 'Sign Up'
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -16,8 +17,27 @@ class SignUpScreen extends Component {
             name: '',
             dob: '',
             email: '',
-            password: ''
+            password: '',
+            error: ''
         };
+    }
+
+    handleSignUp = () => {
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then(this.OnSignUpSuccess)
+            .catch((error) => this.setState({ error: error.message }));
+    }
+
+    OnSignUpSuccess = () => {
+        console.log(this.state.email);
+        this.props.userUpdate({ name: this.state.name, 
+                        email: this.state.email,
+                        dob: this.state.dob, 
+                        password: this.state.password 
+                        });
+        this.props.navigation('Tab');
     }
 
     render() {
@@ -30,7 +50,7 @@ class SignUpScreen extends Component {
             >
                     <View 
                         style={{ flex: 1, 
-                                width: '100%', 
+                                width: '100%',
                                 backgroundColor: '#33445B', 
                                 alignItems: 'center', 
                                 justifyContent: 'center' }}
@@ -72,22 +92,15 @@ class SignUpScreen extends Component {
                         />
                         <TouchableOpacity 
                             style={styles.button} 
-                            onPress={() => { 
-                                            this.props.navigation.navigate('Success'); 
-                                            this.props.userUpdate({ 
-                                                name: this.state.name,
-                                                dob: this.state.dob,
-                                                email: this.state.email,
-                                                password: this.state.password
-                                            }); 
-                                            }}
+                            onPress={this.handleSignUp}
                         >
                             <Text style={styles.buttonText}>
                                 Sign Up
                             </Text>
                         </TouchableOpacity>
-                    </View>
-            </KeyboardAwareScrollView>
+                        <Text style={{ color: 'red' }}>{this.state.error}</Text>
+                    </View>     
+                </KeyboardAwareScrollView> 
         );
     }
 }

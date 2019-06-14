@@ -3,11 +3,13 @@ import { createStackNavigator,
         createBottomTabNavigator, 
         createAppContainer } 
         from 'react-navigation';
+import firebase from 'firebase';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { HelpScreen } from './src';
 import SuccessScreen from './src/Success';
 import SignUpScreen from './src/SignUpScreen';
 import LogInScreen from './src/LogInScreen';
+import LoadingScreen from './src/Loading';
 
 const TabNavigator = createBottomTabNavigator({
     Success: {
@@ -45,6 +47,12 @@ const TabNavigator = createBottomTabNavigator({
 );
 
 const AppNavigator = createStackNavigator({
+  Loading: {
+    screen: LoadingScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
   LogIn: LogInScreen,
   SignUp: SignUpScreen,
   Tab: {
@@ -72,6 +80,19 @@ const AppNavigator = createStackNavigator({
 const AppContainer = createAppContainer(AppNavigator);
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    firebase.initializeApp({ 
+      apiKey: 'AIzaSyAnWZisUqyXjngHd04CA4Z6xOyyWtGU7Lo',
+      authDomain: 'authenticator-a650d.firebaseapp.com',
+      databaseURL: 'https://authenticator-a650d.firebaseio.com',
+      projectId: 'authenticator-a650d',
+      storageBucket: 'authenticator-a650d.appspot.com',
+      messagingSenderId: '640088755875',
+      appId: '1:640088755875:web:1a27e29288c58a0e' 
+    }); 
+  }
+
   render() {
     return (
       <AppContainer />

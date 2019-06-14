@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { userUpdate } from './actions';
 
@@ -13,8 +14,19 @@ class LogInScreen extends Component {
         super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            error: ''
         };
+    }
+
+    handleOnLogin = () => {
+        const { email, password } = this.state;
+        this.setState({ error: '' });
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(() => this.props.navigation.navigate('Tab'))
+            .catch((error) => this.setState({ error: error.message }));
     }
 
     render() {
@@ -46,18 +58,15 @@ class LogInScreen extends Component {
                             style={styles.input} 
                             placeholder='Enter Password'
                             placeholderTextColor='#fff'
+                            secureTextEntry
                             onChangeText={(password) => this.setState({ password })}
                             calue={this.state.password}
                         />
+                        <Text style={{ color: 'red', fontSize: 16 }}>{this.state.error}</Text>
                         <TouchableOpacity 
                             style={styles.button} 
-                            onPress={() => {
-                                this.props.navigation.navigate('Tab');
-                                this.props.userUpdate({
-                                    email: this.state.email,
-                                    password: this.state.password
-                                });
-                            }}
+                            onPress={this.handleOnLogin
+                            }
                         >
                             <Text style={styles.buttonText}>
                                 Sign In
@@ -110,6 +119,7 @@ const styles = {
         width: '90%',
         marginHorizontal: '5%',
         marginTop: 20,
+        marginBottom: 10,
         fontSize: 20,
         shadowColor: 'rgba(0,0,0,.75)',
         shadowOffset: { width: -1, height: 1 },
