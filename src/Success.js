@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Button } from 'react-native';
+import { View, Text, Image, Button, TouchableOpacity, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
+import LotteView from 'lottie-react-native';
+import anim from './animations/connecting-circle.json';
 
 class SuccessScreen extends Component {
     static navigationOptions = {
@@ -11,8 +13,16 @@ class SuccessScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            button: true
+            button: true,
+            progress: new Animated.Value(0)
         };
+    }
+
+    componentDidMount() {
+        Animated.timing(this.state.progress, {
+        toValue: 0.5,
+        duration: 3000,
+        }).start();
     }
 
     handleLogOut = () => {
@@ -28,31 +38,38 @@ class SuccessScreen extends Component {
 
     return (
         <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#33445B' }}>
+        
             <View style={headerCard}>
                 
                     <Text 
                         style={text}
                     >
-                        Hello {this.props.user.name}
+                        Welcome
                     </Text>
                     <Text 
                         style={text}
                     >
-                        Your email is: {this.props.user.email}
+                        To
                     </Text>
                     <Text 
                         style={text}
                     >
-                        Your password is: {this.props.user.password}
+                        Your Profile
                     </Text>
 
+            </View>
+            <View style={{ marginTop: 10, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ position: 'absolute', top: 100, fontSize: 20, textAlign: 'center', color: 'white', marginBottom: 10 }}>
+                Profile Progress
+            </Text>
+            <LotteView source={anim} progress={this.state.progress} style={{ width: 250, height: 250 }} />
             </View>
             <View style={imageCard}>
                 <Button 
                     title="Log out  "
                     onPress={this.handleLogOut}
-                />
-            </View>    
+                />    
+            </View>
         </View>
     );
 }
@@ -75,9 +92,9 @@ const styles = {
     imageCard: {
         width: '97%',
         margin: 5,
-        height: '55%',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 30
     },
     text: {
         textAlign: 'center',

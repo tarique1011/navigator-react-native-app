@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
+import LotteView from 'lottie-react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { userUpdate } from './actions';
+import anim from './animations/wave-loading.json';
 
 class LogInScreen extends Component {
     static navigationOptions ={
@@ -15,21 +17,44 @@ class LogInScreen extends Component {
         this.state = {
             email: '',
             password: '',
-            error: ''
+            error: '',
+            authentication: false
         };
-    }
+    }  
 
     handleOnLogin = () => {
+        this.setState({ authenticating: true });
         const { email, password } = this.state;
         this.setState({ error: '' });
-        firebase
+            firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
-            .then(() => this.props.navigation.navigate('Tab'))
-            .catch((error) => this.setState({ error: error.message }));
+            .then(() => {
+                this.setState({ authenticating: false, email: '', password: '' });
+                this.props.navigation.navigate('Tab');
+            })
+            .catch((error) => this.setState({ error: error.message, authenticating: false, password: '' }));
+        
     }
 
-    render() {
+    renderLoadUp() {
+        if (this.state.authenticating) {
+            return (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
+                    <Text style={{ fontSize: 20, color: 'black', marginBottom: 20 }}>
+                        Please Wait
+                    </Text>
+                    <LotteView 
+                        style={{ width: 150,
+                                height: 150 }}
+                        source={anim}
+                        autoPlay
+                        loop
+                    />
+                </View>
+            );
+        }
+
         return (
             <KeyboardAwareScrollView 
                 keyboardShouldPersistTaps='handled'
@@ -62,7 +87,7 @@ class LogInScreen extends Component {
                             onChangeText={(password) => this.setState({ password })}
                             calue={this.state.password}
                         />
-                        <Text style={{ color: 'red', fontSize: 16 }}>{this.state.error}</Text>
+                        <Text style={{ color: 'red', fontSize: 16, textAlign: 'center' }}>{this.state.error}</Text>
                         <TouchableOpacity 
                             style={styles.button} 
                             onPress={this.handleOnLogin
@@ -96,6 +121,13 @@ class LogInScreen extends Component {
                         </View>
                     </View>
             </KeyboardAwareScrollView>
+
+        );
+    }
+
+    render() {
+        return (
+            this.renderLoadUp()
         );
     }
 }

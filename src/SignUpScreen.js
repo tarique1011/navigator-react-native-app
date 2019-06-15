@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
+import LotteView from 'lottie-react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { userUpdate } from './actions';
+import anim from './animations/wave-loading.json';
 
 
 class SignUpScreen extends Component {
@@ -18,29 +20,49 @@ class SignUpScreen extends Component {
             dob: '',
             email: '',
             password: '',
-            error: ''
+            error: '',
+            loading: false
         };
     }
 
     handleSignUp = () => {
+        this.setState({ loading: true })
         firebase
             .auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(this.OnSignUpSuccess)
-            .catch((error) => this.setState({ error: error.message }));
+            .catch((error) => this.setState({ error: error.message, loading: false }));
     }
 
     OnSignUpSuccess = () => {
-        console.log(this.state.email);
         this.props.userUpdate({ name: this.state.name, 
                         email: this.state.email,
                         dob: this.state.dob, 
                         password: this.state.password 
                         });
-        this.props.navigation('Tab');
+        this.setState({ loading: false })
+        this.props.navigation.navigate('Tab');
     }
 
-    render() {
+    renderLoadUp() {
+        if (this.state.loading) {
+            return (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
+                    <Text style={{ fontSize: 20, color: 'black', marginBottom: 20 }}>
+                        Please Wait
+                    </Text>
+                    <LotteView 
+                        style={{ width: 150,
+                                height: 150 }}
+                        source={anim}
+                        autoPlay
+                        loop
+                    />
+                </View>
+
+            );
+        }
+
         return (
             <KeyboardAwareScrollView
                 keyboardShouldPersistTaps='handled'
@@ -101,6 +123,12 @@ class SignUpScreen extends Component {
                         <Text style={{ color: 'red' }}>{this.state.error}</Text>
                     </View>     
                 </KeyboardAwareScrollView> 
+        );
+    }
+
+    render() {
+        return (
+            this.renderLoadUp()
         );
     }
 }

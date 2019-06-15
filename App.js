@@ -3,6 +3,7 @@ import { createStackNavigator,
         createBottomTabNavigator, 
         createAppContainer } 
         from 'react-navigation';
+import { fadeIn, zoomIn, flipY, flipX, zoomOut, fromRight } from 'react-navigation-transitions';
 import firebase from 'firebase';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { HelpScreen } from './src';
@@ -47,12 +48,6 @@ const TabNavigator = createBottomTabNavigator({
 );
 
 const AppNavigator = createStackNavigator({
-  Loading: {
-    screen: LoadingScreen,
-    navigationOptions: {
-      header: null
-    }
-  },
   LogIn: LogInScreen,
   SignUp: SignUpScreen,
   Tab: {
@@ -64,6 +59,7 @@ const AppNavigator = createStackNavigator({
   
 },
 {
+  transitionConfig: () => fromRight(600),
   defaultNavigationOptions: {
     headerStyle: {
       backgroundColor: '#ff9a3d'
