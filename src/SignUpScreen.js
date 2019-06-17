@@ -35,12 +35,16 @@ class SignUpScreen extends Component {
     }
 
     OnSignUpSuccess = () => {
-        this.props.userUpdate({ name: this.state.name, 
-                        email: this.state.email,
-                        dob: this.state.dob, 
-                        password: this.state.password 
-                        });
-        this.setState({ loading: false })
+        firebase
+            .database()
+            .ref('/Users')
+            .push({
+                name: this.state.name,
+                dob: this.state.dob,
+                email: this.state.email,
+                password: this.state.password
+            });
+        this.setState({ loading: false });
         this.props.navigation.navigate('Tab');
     }
 
@@ -77,7 +81,7 @@ class SignUpScreen extends Component {
                                 alignItems: 'center', 
                                 justifyContent: 'center' }}
                     >
-                        <Text style={styles.text}>Punchh</Text>
+                        <Text style={styles.text}>Joe's Pizza</Text>
                         <TextInput 
                             underlineColorAndroid='#fff'
                             style={styles.input} 

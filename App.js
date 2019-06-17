@@ -48,7 +48,8 @@ const TabNavigator = createBottomTabNavigator({
 );
 
 const AppNavigator = createStackNavigator({
-  LogIn: LogInScreen,
+  Loading: LoadingScreen,
+  SignIn: LogInScreen,
   SignUp: SignUpScreen,
   Tab: {
     screen: TabNavigator,
@@ -59,6 +60,7 @@ const AppNavigator = createStackNavigator({
   
 },
 {
+  initialRouteName: 'Loading',
   transitionConfig: () => fromRight(600),
   defaultNavigationOptions: {
     headerStyle: {

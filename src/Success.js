@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Button, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, Image, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import { StackActions, NavigationActions } from 'react-navigation';
 import firebase from 'firebase';
-import LotteView from 'lottie-react-native';
-import anim from './animations/connecting-circle.json';
+import { CardSection } from './components';
+import { Images } from './images';
+
 
 class SuccessScreen extends Component {
     static navigationOptions = {
@@ -13,23 +15,20 @@ class SuccessScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            button: true,
-            progress: new Animated.Value(0)
+            button: true
         };
     }
-
-    componentDidMount() {
-        Animated.timing(this.state.progress, {
-        toValue: 0.5,
-        duration: 3000,
-        }).start();
-    }
-
+    
     handleLogOut = () => {
+        const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'SignIn' })],
+        });
+
         firebase
             .auth()
             .signOut()
-            .then(() => this.props.navigation.navigate('LogIn'));
+            .then(() => this.props.navigation.dispatch(resetAction));
     }
 
     render() {
@@ -37,40 +36,28 @@ class SuccessScreen extends Component {
     const { headerCard, text, imageCard } = styles;
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#33445B' }}>
+        <ScrollView >
+            <CardSection> 
+                    <Text style={{ margin: 5, textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>Veg Supreme Pizza</Text>
+                    <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-around', alignItems: 'center' }}>
+                    <Image source={Images.pizza1.source} style={{ width: 200, height: 200, borderRadius: 100 }} />
+                    <Text>Add To Cart</Text>
+                    </View>
+            </CardSection>
+            <CardSection> 
+                <Text>this is a card section</Text>
+            </CardSection>
+            <CardSection> 
+                <Text>this is a card section</Text>
+            </CardSection>
+            <CardSection> 
+                <Text>this is a card section</Text>
+            </CardSection>
+            <CardSection> 
+                <Text>this is a card section</Text>
+            </CardSection>
+        </ScrollView>
         
-            <View style={headerCard}>
-                
-                    <Text 
-                        style={text}
-                    >
-                        Welcome
-                    </Text>
-                    <Text 
-                        style={text}
-                    >
-                        To
-                    </Text>
-                    <Text 
-                        style={text}
-                    >
-                        Your Profile
-                    </Text>
-
-            </View>
-            <View style={{ marginTop: 10, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ position: 'absolute', top: 100, fontSize: 20, textAlign: 'center', color: 'white', marginBottom: 10 }}>
-                Profile Progress
-            </Text>
-            <LotteView source={anim} progress={this.state.progress} style={{ width: 250, height: 250 }} />
-            </View>
-            <View style={imageCard}>
-                <Button 
-                    title="Log out  "
-                    onPress={this.handleLogOut}
-                />    
-            </View>
-        </View>
     );
 }
 }

@@ -9,7 +9,7 @@ import anim from './animations/wave-loading.json';
 
 class LogInScreen extends Component {
     static navigationOptions ={
-            title: 'Sign In'
+            title: 'Sign In' 
     };
 
     constructor(props) {
@@ -20,7 +20,7 @@ class LogInScreen extends Component {
             error: '',
             authentication: false
         };
-    }  
+    } 
 
     handleOnLogin = () => {
         this.setState({ authenticating: true });
@@ -34,7 +34,6 @@ class LogInScreen extends Component {
                 this.props.navigation.navigate('Tab');
             })
             .catch((error) => this.setState({ error: error.message, authenticating: false, password: '' }));
-        
     }
 
     renderLoadUp() {
@@ -69,7 +68,7 @@ class LogInScreen extends Component {
                                 alignItems: 'center', 
                                 justifyContent: 'center' }}
                     >
-                        <Text style={styles.text}>Punchh</Text>
+                        <Text style={styles.text}>Joe's Pizza</Text>
                         <TextInput 
                             underlineColorAndroid='#fff'
                             style={styles.input} 
@@ -77,6 +76,7 @@ class LogInScreen extends Component {
                             placeholderTextColor='#fff'
                             onChangeText={(email) => this.setState({ email })}
                             value={this.state.email}
+                            autoCapitalize="none"
                         />
                         <TextInput 
                             underlineColorAndroid='#fff'
@@ -86,6 +86,7 @@ class LogInScreen extends Component {
                             secureTextEntry
                             onChangeText={(password) => this.setState({ password })}
                             calue={this.state.password}
+                            autoCapitalize="none"
                         />
                         <Text style={{ color: 'red', fontSize: 16, textAlign: 'center' }}>{this.state.error}</Text>
                         <TouchableOpacity 
