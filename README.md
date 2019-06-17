@@ -1,3 +1,3 @@
-# navigator-react-native-app
+# Application for Pizza Order
 
-A Simple Authentication Application to understand the concepts of React Navigation and Reudux.
+
