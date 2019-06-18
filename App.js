@@ -6,34 +6,34 @@ import { createStackNavigator,
 import { fadeIn, zoomIn, flipY, flipX, zoomOut, fromRight } from 'react-navigation-transitions';
 import firebase from 'firebase';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { HelpScreen } from './src';
-import SuccessScreen from './src/Success';
+import { CartScreen } from './src';
+import MenuScreen from './src/MenuScreen';
 import SignUpScreen from './src/SignUpScreen';
 import LogInScreen from './src/LogInScreen';
 import LoadingScreen from './src/Loading';
 
 const TabNavigator = createBottomTabNavigator({
-    Success: {
-      screen: SuccessScreen,
+    Menu: {
+      screen: MenuScreen,
       navigationOptions: {
-        tabBarLabel: 'User',
+        tabBarLabel: () => null,
         tabBarIcon: ({ tintColor }) => (
-            <FontAwesome5 name={'user'} size={25} color={tintColor} solid />
+            <FontAwesome5 name={'bars'} size={25} color={tintColor} solid />
         )
       }
     },
-    Help: {
-      screen: HelpScreen,
+    Cart: {
+      screen: CartScreen,
       navigationOptions: {
-        tabBarLabel: 'Support',
+        tabBarLabel: () => null,
         tabBarIcon: ({ tintColor }) => (
-            <FontAwesome5 name='comments' size={25} color={tintColor} solid />
+            <FontAwesome5 name='cart-arrow-down' size={25} color={tintColor} solid />
         )
       }
     }
     },
     {
-      initialRouteName: 'Success',
+      initialRouteName: 'Menu',
       tabBarOptions: {
           activeTintColor: '#000',
           inactiveTintColor: '#fff',

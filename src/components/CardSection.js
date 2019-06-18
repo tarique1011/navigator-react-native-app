@@ -15,7 +15,7 @@ const styles = {
     container: {
         height: (height / 3.5),
         width: '95%',
-        borderWidth: 1,
+        // borderWidth: 1,
         borderColor: 'black',
         borderRadius: 8,
         margin: 10,

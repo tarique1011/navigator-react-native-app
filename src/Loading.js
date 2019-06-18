@@ -20,15 +20,15 @@ export default class Loading extends Component {
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                this.props.navigation.navigate('Tab');
-            } else {
-                this.setState({ loading: false });
-            }
-        });    
-        }, 3000);
+        firebase
+            .auth()                
+            .onAuthStateChanged(user => {
+                if (user) {
+                    this.props.navigation.navigate('Tab');
+                } else {
+                    this.setState({ loading: false });
+                }   
+        });
     }
 
     renderLoadUp() {
