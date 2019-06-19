@@ -21,27 +21,32 @@ class MenuScreen extends Component {
                 {
                     id: 1,
                     name: 'Double Cheese Pizza',
-                    count: 0
+                    count: 0,
+                    price: 100
                 },
                 {
                     id: 2,
                     name: 'Cheese and Corn Pizza',
-                    count: 0
+                    count: 0,
+                    price: 150
                 },
                 {
                     id: 3,
                     name: 'Fresh Veggie',
-                    count: 0
+                    count: 0,
+                    price: 200
                 },
                 {
                     id: 4,
                     name: 'Veg Supreme',
-                    count: 0
+                    count: 0,
+                    price: 250
                 },
                 {
                     id: 5,
                     name: 'Non Veg Supreme',
-                    count: 0
+                    count: 0,
+                    price: 300
                 }
             ]
         };

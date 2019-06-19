@@ -33,7 +33,7 @@ const TabNavigator = createBottomTabNavigator({
     }
     },
     {
-      initialRouteName: 'Menu',
+      initialRouteName: 'Cart',
       tabBarOptions: {
           activeTintColor: '#000',
           inactiveTintColor: '#fff',
