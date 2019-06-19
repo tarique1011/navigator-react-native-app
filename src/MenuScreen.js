@@ -39,7 +39,7 @@ class MenuScreen extends Component {
                     count: 0
                 },
                 {
-                    id: 2,
+                    id: 5,
                     name: 'Non Veg Supreme',
                     count: 0
                 }
@@ -73,12 +73,18 @@ class MenuScreen extends Component {
         }
     }
 
+    AddToCart() {
+        const array = [...this.state.pizza];
+        const orderedPizza = array.filter((data) => data.count !== 0);
+        this.props.addPizza(orderedPizza);
+        this.props.navigation.navigate('Cart');
+    }
+
     render() {
-    console.log(this.props.pizzas);
     const { pizza } = this.state;
 
     return (
-        <ScrollView contentContainerstyle={{ flexGrow: 1, alignItems: 'center' }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
 
             <CardSection> 
                 <Text 
@@ -197,12 +203,16 @@ class MenuScreen extends Component {
                     height: 60, 
                     backgroundColor: '#9e0606',
                     justifyContent: 'center',
-                    alignItems: 'center' }}
+                    alignItems: 'center',
+                    margin: 15,
+                    borderRadius: 5 }}
+                onPress={() => this.AddToCart()}
             >
                 <Text 
-                    style={{ fontSize: 30, 
+                    style={{ fontSize: 20, 
                     fontWeight: 'bold', 
-                    fontFamily: 'sans-serif' }}
+                    fontFamily: 'sans-serif',
+                    color: 'white' }}
                 >
                     Add To Cart
                 </Text>

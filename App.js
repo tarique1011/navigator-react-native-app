@@ -6,7 +6,7 @@ import { createStackNavigator,
 import { fadeIn, zoomIn, flipY, flipX, zoomOut, fromRight } from 'react-navigation-transitions';
 import firebase from 'firebase';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { CartScreen } from './src';
+import CartScreen from './src/CartScreen';
 import MenuScreen from './src/MenuScreen';
 import SignUpScreen from './src/SignUpScreen';
 import LogInScreen from './src/LogInScreen';
@@ -60,7 +60,7 @@ const AppNavigator = createStackNavigator({
   
 },
 {
-  initialRouteName: 'Loading',
+  initialRouteName: 'Tab',
   transitionConfig: () => fromRight(600),
   defaultNavigationOptions: {
     headerStyle: {
