@@ -57,7 +57,6 @@ const AppNavigator = createStackNavigator({
       header: null
     }
   }
-  
 },
 {
   initialRouteName: 'Tab',
