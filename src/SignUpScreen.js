@@ -34,19 +34,20 @@ class SignUpScreen extends Component {
             .catch((error) => this.setState({ error: error.message, loading: false }));
     }
 
-    OnSignUpSuccess = () => {
-        firebase
-            .database()
-            .ref('/Users')
-            .push({
-                name: this.state.name,
-                dob: this.state.dob,
-                email: this.state.email,
-                password: this.state.password
-            });
-        this.setState({ loading: false });
-        this.props.navigation.navigate('Tab');
-    }
+    // OnSignUpSuccess = () => {
+    //     firebase
+    //         .database()
+    //         .ref('/Users')
+    //         .push({
+    //             name: this.state.name,
+    //             dob: this.state.dob,
+    //             email: this.state.email,
+    //             password: this.state.password
+    //         });
+    //     this.setState({ loading: false });
+    //     this.props.navigation.navigate('Tab');
+    // }
+    
 
     renderLoadUp() {
         if (this.state.loading) {
