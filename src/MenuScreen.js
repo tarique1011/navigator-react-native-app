@@ -147,19 +147,29 @@ class MenuScreen extends Component {
                 </View>
             </CardSection>
 
-            <CardSection> 
-                <Text style={{ margin: 5, textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>
-                    Non Veg Supreme
-                </Text>
-                <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-around', alignItems: 'center' }}>
-                    <Counter 
-                        counter={pizza[4].count} 
-                        onPressIncrement={() => this.incrementCounter(4)} 
-                        onPressDecrement={() => this.decrementCounter(4)}
-                    />
-                    <Image source={Images.pizza5.source} style={{ width: 180, height: 180, borderRadius: 100 }} />
-                </View>
-            </CardSection>
+            <TouchableOpacity 
+                style={{ width: '50%', 
+                    height: 60, 
+                    backgroundColor: '#9e0606',
+                    justifyContent: 'center',
+                    alignItems: 'center' }}
+            >
+                <Text style={{ fontSize: 30, fontWeight: 'bold', fontFamily: 'sans-serif' }}>Add To Cart</Text>
+            </TouchableOpacity>
+
+             <CardSection> 
+                 <Text style={{ margin: 5, textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>
+                     Non Veg Supreme
+                 </Text>
+                 <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-around', alignItems: 'center' }}>
+                     <Counter 
+                         counter={pizza[4].count} 
+                         onPressIncrement={() => this.incrementCounter(4)} 
+                         onPressDecrement={() => this.decrementCounter(4)}
+                     />
+                     <Image source={Images.pizza5.source} style={{ width: 180, height: 180, borderRadius: 100 }} />
+                 </View>
+             </CardSection>
 
         </ScrollView>
         
