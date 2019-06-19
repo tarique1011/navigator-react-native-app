@@ -21,6 +21,7 @@ class LogInScreen extends Component {
             authentication: false
         };
     } 
+      
 
     handleOnLogin = () => {
         this.setState({ authenticating: true });
