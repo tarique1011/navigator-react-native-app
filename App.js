@@ -33,7 +33,7 @@ const TabNavigator = createBottomTabNavigator({
     }
     },
     {
-      initialRouteName: 'Cart',
+      initialRouteName: 'Menu',
       tabBarOptions: {
           activeTintColor: '#000',
           inactiveTintColor: '#fff',
@@ -59,7 +59,7 @@ const AppNavigator = createStackNavigator({
   }
 },
 {
-  initialRouteName: 'Tab',
+  initialRouteName: 'Loading',
   transitionConfig: () => fromRight(600),
   defaultNavigationOptions: {
     headerStyle: {
