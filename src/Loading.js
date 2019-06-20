@@ -7,6 +7,7 @@ import anim from './animations/pizzaLoading.json';
 import { Button } from './components';
 
 
+
 export default class Loading extends Component {
     static navigationOptions = {
         header: null
@@ -24,7 +25,7 @@ export default class Loading extends Component {
             .auth()                
             .onAuthStateChanged(user => {
                 if (user) {
-                    this.props.navigation.navigate('Tab');
+                    this.props.navigation.navigate('Tab',{currentUser:user.email});
                 } else {
                     this.setState({ loading: false });
                 }   

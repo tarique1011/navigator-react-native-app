@@ -26,7 +26,7 @@ class SignUpScreen extends Component {
     }
 
     handleSignUp = () => {
-        this.setState({ loading: true })
+       
         firebase
             .auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -38,6 +38,7 @@ class SignUpScreen extends Component {
                 Email:this.state.email,
                 Password:this.state.password
             }).catch((error)=>alert(error))
+            this.setState({ loading: true })
         }
 
     // OnSignUpSuccess = () => {

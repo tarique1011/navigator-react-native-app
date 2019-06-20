@@ -74,6 +74,7 @@ class MenuScreen extends Component {
     }
 
     render() {
+        
     console.log(this.props.pizzas);
     const { pizza } = this.state;
 
@@ -208,7 +209,7 @@ class MenuScreen extends Component {
                 </Text>
             </TouchableOpacity>
             
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate('SignIn')}
+            <TouchableOpacity onPress={async ()=>{return( await firebase.auth().signOut(),this.props.navigation.navigate('Loading'))}}
                 style={{ width: '50%', 
                     height: 60, 
                     backgroundColor: '#9e0606',
