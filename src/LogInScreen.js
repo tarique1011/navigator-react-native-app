@@ -21,6 +21,7 @@ class LogInScreen extends Component {
             authentication: false
         };
     } 
+      
 
     handleOnLogin = () => {
         this.setState({ authenticating: true });
@@ -31,7 +32,7 @@ class LogInScreen extends Component {
             .signInWithEmailAndPassword(email, password)
             .then(() => {
                 this.setState({ authenticating: false, email: '', password: '' });
-                this.props.navigation.navigate('Tab');
+                this.props.navigation.navigate('Tab',{username:email});
             })
             .catch((error) => this.setState({ error: error.message, authenticating: false, password: '' }));
     }
@@ -184,4 +185,5 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { userUpdate })(LogInScreen);
+export default connect(mapStateToProps, { userUpdate
+ })(LogInScreen);

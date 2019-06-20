@@ -192,6 +192,22 @@ class MenuScreen extends Component {
                     Add To Cart
                 </Text>
             </TouchableOpacity>
+            
+            <TouchableOpacity onPress={async ()=>{return( await firebase.auth().signOut(),this.props.navigation.navigate('Loading'))}}
+                style={{ width: '50%', 
+                    height: 60, 
+                    backgroundColor: '#9e0606',
+                    justifyContent: 'center',
+                    alignItems: 'center' }}
+            >
+                <Text 
+                    style={{ fontSize: 30, 
+                    fontWeight: 'bold', 
+                    fontFamily: 'sans-serif' }}
+                >
+                    Logout
+                </Text>
+            </TouchableOpacity>
 
         </ScrollView>
         

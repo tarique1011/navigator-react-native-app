@@ -11,7 +11,7 @@ import MenuScreen from './src/MenuScreen';
 import SignUpScreen from './src/SignUpScreen';
 import LogInScreen from './src/LogInScreen';
 import LoadingScreen from './src/Loading';
-
+import UserProfileScreen from './src/UserProfileScreen';
 const TabNavigator = createBottomTabNavigator({
     Menu: {
       screen: MenuScreen,
@@ -28,6 +28,15 @@ const TabNavigator = createBottomTabNavigator({
         tabBarLabel: () => null,
         tabBarIcon: ({ tintColor }) => (
             <FontAwesome5 name='cart-arrow-down' size={25} color={tintColor} solid />
+        )
+      }
+    },
+    User: {
+      screen: UserProfileScreen,
+      navigationOptions: {
+        tabBarLabel: () => null,
+        tabBarIcon: ({ tintColor }) => (
+            <FontAwesome5 name='user-circle' size={27} color={tintColor} solid />
         )
       }
     }
@@ -79,15 +88,17 @@ const AppContainer = createAppContainer(AppNavigator);
 export default class App extends Component {
   constructor(props) {
     super(props);
-    firebase.initializeApp({ 
-      apiKey: 'AIzaSyAnWZisUqyXjngHd04CA4Z6xOyyWtGU7Lo',
-      authDomain: 'authenticator-a650d.firebaseapp.com',
-      databaseURL: 'https://authenticator-a650d.firebaseio.com',
-      projectId: 'authenticator-a650d',
-      storageBucket: 'authenticator-a650d.appspot.com',
-      messagingSenderId: '640088755875',
-      appId: '1:640088755875:web:1a27e29288c58a0e' 
-    }); 
+    if(!firebase.apps.length){
+      firebase.initializeApp({
+        apiKey: "AIzaSyBnbKAfbUUVYLXseIF6479wNe3ejyrcN7w",
+    authDomain: "pizzadeliveryapp-cdafc.firebaseapp.com",
+    databaseURL: "https://pizzadeliveryapp-cdafc.firebaseio.com",
+    projectId: "pizzadeliveryapp-cdafc",
+    storageBucket: "pizzadeliveryapp-cdafc.appspot.com",
+    messagingSenderId: "542659949490",
+    appId: "1:542659949490:web:5a8fb66c86d92fc8"
+      })
+     }
   }
 
   render() {
