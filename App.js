@@ -88,16 +88,16 @@ const AppContainer = createAppContainer(AppNavigator);
 export default class App extends Component {
   constructor(props) {
     super(props);
-    if(!firebase.apps.length){
+    if (!firebase.apps.length) {
       firebase.initializeApp({
-        apiKey: "AIzaSyBnbKAfbUUVYLXseIF6479wNe3ejyrcN7w",
-    authDomain: "pizzadeliveryapp-cdafc.firebaseapp.com",
-    databaseURL: "https://pizzadeliveryapp-cdafc.firebaseio.com",
-    projectId: "pizzadeliveryapp-cdafc",
-    storageBucket: "pizzadeliveryapp-cdafc.appspot.com",
-    messagingSenderId: "542659949490",
-    appId: "1:542659949490:web:5a8fb66c86d92fc8"
-      })
+        apiKey: 'AIzaSyBnbKAfbUUVYLXseIF6479wNe3ejyrcN7w',
+        authDomain: 'pizzadeliveryapp-cdafc.firebaseapp.com',
+        databaseURL: 'https://pizzadeliveryapp-cdafc.firebaseio.com',
+        projectId: 'pizzadeliveryapp-cdafc',
+        storageBucket: 'pizzadeliveryapp-cdafc.appspot.com',
+        messagingSenderId: '542659949490',
+        appId: '1:542659949490:web:5a8fb66c86d92fc8'
+      });
      }
   }
 

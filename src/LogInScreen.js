@@ -32,7 +32,7 @@ class LogInScreen extends Component {
             .signInWithEmailAndPassword(email, password)
             .then(() => {
                 this.setState({ authenticating: false, email: '', password: '' });
-                this.props.navigation.navigate('Tab',{username:email});
+                this.props.navigation.navigate('Tab');
             })
             .catch((error) => this.setState({ error: error.message, authenticating: false, password: '' }));
     }
