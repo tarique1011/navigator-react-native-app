@@ -117,6 +117,9 @@ class SignUpScreen extends Component {
                             onChangeText={(password) => this.setState({ password })}
                             value={this.state.password}
                         />
+                        
+                        <Text style={{ color: 'red' }}>{this.state.error}</Text>
+
                         <TouchableOpacity 
                             style={styles.button} 
                             onPress={this.handleSignUp}
@@ -125,7 +128,7 @@ class SignUpScreen extends Component {
                                 Sign Up
                             </Text>
                         </TouchableOpacity>
-                        <Text style={{ color: 'red' }}>{this.state.error}</Text>
+                        
                     </View>     
                 </KeyboardAwareScrollView> 
         );

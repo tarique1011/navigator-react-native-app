@@ -158,7 +158,6 @@ class CartScreen extends Component {
                         .join('')
                         .split('_')
                         .join('');
-        console.log(userId);
         firebase
             .database()
             .ref(`/lastorder/${userId}`)
