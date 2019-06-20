@@ -25,7 +25,7 @@ export default class Loading extends Component {
             .auth()                
             .onAuthStateChanged(user => {
                 if (user) {
-                    this.props.navigation.navigate('Tab',{currentUser:user.email});
+                    this.props.navigation.navigate('Tab');
                 } else {
                     this.setState({ loading: false });
                 }   
