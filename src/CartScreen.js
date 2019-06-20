@@ -187,7 +187,7 @@ class CartScreen extends Component {
                             justifyContent: 'space-between',
                             padding: 10,
                             flexDirection: 'row' }}
-                    >
+                >
                         <Text 
                             style={{ fontSize: 20, 
                                 color: 'white' }}

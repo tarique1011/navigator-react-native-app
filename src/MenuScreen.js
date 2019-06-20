@@ -204,7 +204,7 @@ const Counter = (props) => {
         <View style={{ width: '25%', height: 30, flexDirection: 'row' }}>
 
             <TouchableOpacity 
-                style={styles.counter}
+                style={styles.counterLeft}
                 onPress={props.onPressDecrement}
             >    
                 <Text style={{ fontSize: 20, color: 'white' }}>-</Text>
@@ -220,7 +220,7 @@ const Counter = (props) => {
             </View>
 
             <TouchableOpacity  
-                style={styles.counter}
+                style={styles.counterRight}
                 onPress={props.onPressIncrement}
             >  
                 <Text style={{ fontSize: 20, color: 'white' }}>+</Text>
@@ -231,13 +231,22 @@ const Counter = (props) => {
 };
 
 const styles = {
-    counter: {
+    counterRight: {
         width: '30%', 
         backgroundColor: '#ff9a3d', 
         justifyContent: 'center', 
         alignItems: 'center', 
         borderTopRightRadius: 4,
         borderBottomRightRadius: 4
+
+    },
+    counterLeft: {
+        width: '30%', 
+        backgroundColor: '#ff9a3d', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        borderTopLeftRadius: 4,
+        borderBottomLeftRadius: 4
 
     },
     addToCartButton: {
