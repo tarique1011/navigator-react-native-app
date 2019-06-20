@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { StackActions, NavigationActions } from 'react-navigation';
 import firebase from 'firebase';
 import { CardSection } from './components';
 import { Images } from './images';
 import { addPizza } from './actions';
+import { Colors } from './Colors';
 
 
 class MenuScreen extends Component {
@@ -21,27 +22,37 @@ class MenuScreen extends Component {
                 {
                     id: 1,
                     name: 'Double Cheese Pizza',
-                    count: 0
+                    count: 0,
+                    price: 100,
+                    source: Images.pizza1.source
                 },
                 {
                     id: 2,
                     name: 'Cheese and Corn Pizza',
-                    count: 0
+                    count: 0,
+                    price: 150,
+                    source: Images.pizza2.source
                 },
                 {
                     id: 3,
                     name: 'Fresh Veggie',
-                    count: 0
+                    count: 0,
+                    price: 200,
+                    source: Images.pizza3.source
                 },
                 {
                     id: 4,
                     name: 'Veg Supreme',
-                    count: 0
+                    count: 0,
+                    price: 250,
+                    source: Images.pizza4.source
                 },
                 {
-                    id: 2,
+                    id: 5,
                     name: 'Non Veg Supreme',
-                    count: 0
+                    count: 0,
+                    price: 300,
+                    source: Images.pizza5.source
                 }
             ]
         };
@@ -73,136 +84,110 @@ class MenuScreen extends Component {
         }
     }
 
+    AddToCart() {
+        const array = [...this.state.pizza];
+        const orderedPizza = array.filter((data) => data.count !== 0);
+        this.props.addPizza(orderedPizza);
+        this.props.navigation.navigate('Cart');
+    }
+
+    renderCounter(index) {
+        if (this.state.pizza[index].count !== 0) {
+            return (
+                    <Counter 
+                        counter={this.state.pizza[index].count} 
+                        onPressIncrement={() => this.incrementCounter(index)} 
+                        onPressDecrement={() => this.decrementCounter(index)}
+                    />
+            );
+        }
+
+        return (
+            <TouchableOpacity 
+                style={styles.counterAdd}
+                onPress={() => this.incrementCounter(index)}
+            >
+                    <Text 
+                        style={{
+                            fontSize: 15,
+                            color: 'white'
+                        }}
+                    >
+                        Add
+                    </Text>
+            </TouchableOpacity>
+        );
+    }
+
+    renderItem(id, source) {
+        if (id % 2 === 0) {
+            return (
+                <View 
+                    style={styles.items}
+                >
+                    {this.renderCounter(id - 1)}
+
+                    <Image 
+                        source={source} 
+                        style={{ width: 180, height: 180, borderRadius: 100 }} 
+                    />
+                </View>
+            );
+        }
+
+        return (
+            <View 
+                style={styles.items}
+            >
+                    <Image 
+                        source={source} 
+                        style={{ width: 180, height: 180, borderRadius: 100 }} 
+                    />
+
+                    {this.renderCounter(id - 1)}
+            </View>
+
+        );
+    }
+
     render() {
-    console.log(this.props.pizzas);
     const { pizza } = this.state;
 
     return (
-        <ScrollView contentContainerstyle={{ flexGrow: 1, alignItems: 'center' }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
 
-            <CardSection> 
-                <Text 
-                    style={{ margin: 5, textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}
-                >
-                    Double Cheese
-                </Text>
-                <View 
-                    style={{ flexDirection: 'row', 
-                        flex: 1, 
-                        justifyContent: 'space-around', 
-                        alignItems: 'center' }}
-                >
-                    <Counter 
-                        counter={pizza[0].count} 
-                        onPressIncrement={() => this.incrementCounter(0)} 
-                        onPressDecrement={() => this.decrementCounter(0)}
-                    />
-                    <Image 
-                        source={Images.pizza1.source} 
-                        style={{ width: 180, height: 180, borderRadius: 100 }} 
-                    />
-                </View>
-            </CardSection>
+            <FlatList 
+                style={{ width: '100%' }}
+                data={pizza}
+                renderItem={({ item }) => (
+                    <CardSection> 
+                        <Text 
+                            style={{ 
+                                margin: 5, 
+                                textAlign: 'center', 
+                                fontSize: 20, 
+                                fontWeight: 'bold' }}
+                        >
+                            {item.name}
+                        </Text>
+                        
+                        {this.renderItem(item.id, item.source)}
+                        
+                    </CardSection>
 
-            <CardSection> 
-                <Text style={{ margin: 5, textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>
-                    Cheese and Corn
-                </Text>
-                <View 
-                    style={{ flexDirection: 'row', 
-                        flex: 1, 
-                        justifyContent: 'space-around', 
-                        alignItems: 'center' }}
-                >
-                    <Image 
-                        source={Images.pizza2.source} 
-                        style={{ width: 180, height: 180, borderRadius: 100 }} 
-                    />
-                    <Counter
-                        counter={pizza[1].count} 
-                        onPressIncrement={() => this.incrementCounter(1)} 
-                        onPressDecrement={() => this.decrementCounter(1)} 
-                    />
-                </View>
-            </CardSection>
-
-            <CardSection> 
-                <Text style={{ margin: 5, textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>
-                    Fresh Veggie
-                </Text>
-                <View 
-                    style={{ flexDirection: 'row', 
-                        flex: 1, 
-                        justifyContent: 'space-around', 
-                        alignItems: 'center' }}
-                >
-                    <Counter 
-                        counter={pizza[2].count} 
-                        onPressIncrement={() => this.incrementCounter(2)} 
-                        onPressDecrement={() => this.decrementCounter(2)}
-                    />
-                    <Image 
-                        source={Images.pizza3.source} 
-                        style={{ width: 180, height: 180, borderRadius: 100 }} 
-                    />
-                </View>
-            </CardSection>
-
-            <CardSection> 
-                <Text style={{ margin: 5, textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>
-                    Veg Supreme
-                </Text>
-                <View 
-                    style={{ flexDirection: 'row', 
-                        flex: 1, 
-                        justifyContent: 'space-around', 
-                        alignItems: 'center' }}
-                >
-                    <Image 
-                        source={Images.pizza4.source} 
-                        style={{ width: 180, height: 180, borderRadius: 100 }} 
-                    />
-                    <Counter 
-                        counter={pizza[3].count} 
-                        onPressIncrement={() => this.incrementCounter(3)} 
-                        onPressDecrement={() => this.decrementCounter(3)} 
-                    />
-                </View>
-            </CardSection>
-
-            <CardSection> 
-                 <Text style={{ margin: 5, textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>
-                     Non Veg Supreme
-                 </Text>
-                <View 
-                    style={{ flexDirection: 'row', 
-                        flex: 1, 
-                        justifyContent: 'space-around', 
-                        alignItems: 'center' }}
-                >
-                     <Counter 
-                         counter={pizza[4].count} 
-                         onPressIncrement={() => this.incrementCounter(4)} 
-                         onPressDecrement={() => this.decrementCounter(4)}
-                     />
-                    <Image 
-                        source={Images.pizza5.source} 
-                        style={{ width: 180, height: 180, borderRadius: 100 }} 
-                    />
-                 </View>
-            </CardSection>
+                )}
+                keyExtractor={item => item.id}
+            />
 
             <TouchableOpacity 
-                style={{ width: '50%', 
-                    height: 60, 
-                    backgroundColor: '#9e0606',
-                    justifyContent: 'center',
-                    alignItems: 'center' }}
+                style={styles.addToCartButton}
+                onPress={() => this.AddToCart()}
             >
                 <Text 
-                    style={{ fontSize: 30, 
+                    style={{ fontSize: 20, 
                     fontWeight: 'bold', 
-                    fontFamily: 'sans-serif' }}
+                    fontFamily: 'sans-serif',
+                    color: 'white' }}
                 >
                     Add To Cart
                 </Text>
@@ -219,12 +204,7 @@ const Counter = (props) => {
         <View style={{ width: '25%', height: 30, flexDirection: 'row' }}>
 
             <TouchableOpacity 
-                style={{ width: '30%', 
-                    backgroundColor: '#ff9a3d', 
-                    justifyContent: 'center', 
-                    alignItems: 'center',
-                    borderTopLeftRadius: 4,
-                    borderBottomLeftRadius: 4 }}
+                style={styles.counterLeft}
                 onPress={props.onPressDecrement}
             >    
                 <Text style={{ fontSize: 20, color: 'white' }}>-</Text>
@@ -240,12 +220,7 @@ const Counter = (props) => {
             </View>
 
             <TouchableOpacity  
-                style={{ width: '30%', 
-                    backgroundColor: '#ff9a3d', 
-                    justifyContent: 'center', 
-                    alignItems: 'center', 
-                    borderTopRightRadius: 4,
-                    borderBottomRightRadius: 4 }}
+                style={styles.counterRight}
                 onPress={props.onPressIncrement}
             >  
                 <Text style={{ fontSize: 20, color: 'white' }}>+</Text>
@@ -256,39 +231,47 @@ const Counter = (props) => {
 };
 
 const styles = {
-    headerCard: { 
-        width: '97%', 
-        height: '40%', 
-        padding: 5,
+    counterRight: {
+        width: '30%', 
+        backgroundColor: '#ff9a3d', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        borderTopRightRadius: 4,
+        borderBottomRightRadius: 4
+
+    },
+    counterLeft: {
+        width: '30%', 
+        backgroundColor: '#ff9a3d', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        borderTopLeftRadius: 4,
+        borderBottomLeftRadius: 4
+
+    },
+    addToCartButton: {
+        width: '50%', 
+        height: 60, 
+        backgroundColor: '#9e0606',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 5
-    },
-    image: {
-        width: '100%',
-        height: '100%'
-    },
-    
-    imageCard: {
-        width: '97%',
-        margin: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 30
-    },
-    text: {
-        textAlign: 'center',
-        color: 'white',
-        fontSize: 30,
-        fontFamily: 'sans-serif',
         margin: 15,
-        textShadowColor: 'black',
-        textShadowOffset: {
-            width: -1,
-            height: 1
-        },
-        textShadowRadius: 2,
-        elevation: 2
+        borderRadius: 5 
+
+    },
+    counterAdd: { 
+        width: '25%', 
+        height: 30, 
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Colors.orange,
+        borderRadius: 4
+    },
+    items: { 
+        flexDirection: 'row', 
+        flex: 1, 
+        justifyContent: 'space-around', 
+        alignItems: 'center'
     }
 };
 
