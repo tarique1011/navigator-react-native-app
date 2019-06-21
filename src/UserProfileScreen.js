@@ -28,11 +28,6 @@ class UserProfileScreen extends Component {
 
     }
 
-
-
-
-
-
     render() {
         let username = '';
         let userEmail = '';
@@ -92,7 +87,10 @@ class UserProfileScreen extends Component {
                         </View>
                     </View>
                 </View>
-                <Button title="sign Out" onPress={async ()=>{return( await firebase.auth().signOut(),this.props.navigation.navigate('Loading'))}}/>
+                <Button 
+                    title="sign Out" 
+                    onPress={() => firebase.auth().signOut().then(() => this.props.navigation.navigate('Loading'))}
+                />
             </View>
 
 

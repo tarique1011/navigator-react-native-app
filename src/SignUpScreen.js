@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import { StackActions, NavigationActions } from 'react-navigation';
 import firebase from 'firebase';
 import LotteView from 'lottie-react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -45,7 +46,11 @@ class SignUpScreen extends Component {
                 Password: this.state.password
             });
         this.setState({ loading: false });
-        this.props.navigation.navigate('Tab');
+        const resetAction = StackActions.reset({
+                    index: 0,
+                    actions: [NavigationActions.navigate({ routeName: 'Tab' })]
+                });
+        this.props.navigation.dispatch(resetAction);
     }
     
 
