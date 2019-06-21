@@ -12,13 +12,14 @@ import SignUpScreen from './src/SignUpScreen';
 import LogInScreen from './src/LogInScreen';
 import LoadingScreen from './src/Loading';
 import UserProfileScreen from './src/UserProfileScreen';
+
 const TabNavigator = createBottomTabNavigator({
     Menu: {
       screen: MenuScreen,
       navigationOptions: {
         tabBarLabel: () => null,
         tabBarIcon: ({ tintColor }) => (
-            <FontAwesome5 name={'bars'} size={25} color={tintColor} solid />
+            <FontAwesome5 name={'bars'} size={20} color={tintColor} solid />
         )
       }
     },
@@ -27,7 +28,7 @@ const TabNavigator = createBottomTabNavigator({
       navigationOptions: {
         tabBarLabel: () => null,
         tabBarIcon: ({ tintColor }) => (
-            <FontAwesome5 name='cart-arrow-down' size={25} color={tintColor} solid />
+            <FontAwesome5 name='cart-arrow-down' size={20} color={tintColor} solid />
         )
       }
     },
@@ -36,7 +37,7 @@ const TabNavigator = createBottomTabNavigator({
       navigationOptions: {
         tabBarLabel: () => null,
         tabBarIcon: ({ tintColor }) => (
-            <FontAwesome5 name='user-circle' size={27} color={tintColor} solid />
+            <FontAwesome5 name='user-circle' size={20} color={tintColor} solid />
         )
       }
     }

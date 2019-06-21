@@ -3,6 +3,9 @@ import { View, Text, FlatList, Dimensions, TouchableOpacity, TextInput } from 'r
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
+import Modal from 'react-native-modal';
+import LottieView from 'lottie-react-native';
+import animation from './animations/Check Mark Success Data.json';
 
 const { width: windowWidth } = Dimensions.get('window');
 
@@ -15,8 +18,10 @@ class CartScreen extends Component {
             flat: '',
             locality: '',
             city: '',
-            pincode: ''
+            pincode: '',
+            isVisible: false
         };
+        
     }
 
     renderTotal() {
@@ -164,6 +169,8 @@ class CartScreen extends Component {
             .set({
                 pizza: this.props.pizzas.pizza
             });
+        
+        this.setState({ isVisible: true });
     }
 
     render() {
@@ -218,6 +225,41 @@ class CartScreen extends Component {
                             Total: ₹{this.renderTotal()}
                         </Text>
                     </TouchableOpacity>
+
+                    <Modal
+                        isVisible={this.state.isVisible}
+                        onBackdropPress={() => this.setState({ isVisible: false })}
+                        animationIn='slideInUp'
+                        animationOut='slideOutDown'
+                    >
+                        <View 
+                            style={{ width: 300, 
+                                height: 200, 
+                                backgroundColor: 'white', 
+                                alignSelf: 'center',
+                                justifyContent: 'center',
+                                alignItems: 'center' }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 30,
+                                    fontWeight: 'bold',
+                                    fontFamily: 'sans-serif',
+                                    margin: 20
+                                }}
+                            >Order Successful!</Text>
+                            <LottieView 
+                                source={animation}
+                                autoPlay
+                                style={{
+                                    width: 100,
+                                    height: 100
+                                }}
+                                loop={false}
+                            />
+                        </View>
+                    </Modal>
+
             </KeyboardAwareScrollView>
         );
     }

@@ -28,11 +28,6 @@ class UserProfileScreen extends Component {
 
     }
 
-
-
-
-
-
     render() {
         let username = '';
         let userEmail = '';
