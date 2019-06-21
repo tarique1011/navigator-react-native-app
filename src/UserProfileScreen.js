@@ -46,18 +46,27 @@ class UserProfileScreen extends Component {
 
         return (
             <View style={{ flex: 1 }}>
-                <View style={{ height: '35%', backgroundColor: '#ff9a3d', justifyContent: 'center', alignItems: 'center' }}>
-
+                <View 
+                    style={{ 
+                        height: '35%', 
+                        backgroundColor: '#ff9a3d', 
+                        justifyContent: 'center', 
+                        alignItems: 'center',
+                        borderColor: 'black',
+                        borderWidth: 1 }}
+                    >
+                    <View style={{ width: 150, height: 150, borderRadius: 75, padding: 5, backgroundColor: 'white' }}>
                     <Image source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Tom_Cruise_avp_2014_4.jpg/170px-Tom_Cruise_avp_2014_4.jpg' }}
                         style={{
-                            width: 150,
-                            height: 150,
-                            borderRadius: 150 / 2,
+                            width: 140,
+                            height: 140,
+                            borderRadius: 140 / 2,
                             borderWidth: 3,
                         }}
                         resizeMode='cover'
 
                     />
+                    </View>
 
                     <Text style={{ fontSize: 20, fontWeight: '500', marginBottom: 5, marginTop: 2 }}>Hello,{username}</Text>
                 </View>

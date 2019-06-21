@@ -213,6 +213,7 @@ class MenuScreen extends Component {
                             />
                         </View>
                     )}
+                    keyExtractor={item => item.id}
                 />
                 </View>
             ); 
@@ -228,27 +229,30 @@ class MenuScreen extends Component {
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+            <View 
+                style={{
+                    alignItems: 'center'
+                }}
+            >
+                <Text 
+                    style={{ 
+                        margin: 10,
+                        fontSize: 28,
+                        color: '#9e0606',
+                        fontWeight: 'bold',
+                        fontFamily: 'sans-serif'
+                    }}
+                >
+                    Your Previous Orders
+                </Text>
+            </View>
+
+                {this.renderPreviousOrders()}
+
             <View>
             <Text 
                 style={{ 
                     margin: 10,
-                    textAlign: 'left',
-                    fontSize: 28,
-                    color: '#9e0606',
-                    fontWeight: 'bold',
-                    fontFamily: 'sans-serif'
-                }}
-            >
-                Your Previous Orders
-            </Text>
-
-                {this.renderPreviousOrders()}
-
-            </View>
-            <Text 
-                style={{ 
-                    margin: 10,
-                    textAlign: 'left',
                     fontSize: 25,
                     color: '#9e0606',
                     fontWeight: 'bold',
@@ -257,6 +261,7 @@ class MenuScreen extends Component {
             >
                 Menu
             </Text> 
+            </View>
             <FlatList 
                 style={{ width: '100%' }}
                 data={pizza}
