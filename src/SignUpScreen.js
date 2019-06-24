@@ -1,12 +1,15 @@
+/* eslint-disable no-undef */
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, DatePickerAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
 import LotteView from 'lottie-react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { userUpdate } from './actions';
 import anim from './animations/wave-loading.json';
-import Icon from 'react-native-vector-icons/FontAwesome';
+
+
 class SignUpScreen extends Component {
     static navigationOptions = {
         title: 'Sign Up'
@@ -17,6 +20,9 @@ class SignUpScreen extends Component {
         this.state = {
             name: '',
             dob: 'Date Of Birth',
+            date: new Date(),
+            maxDate: new Date(),
+            minDate: new Date(1900, 1, 1),
             email: '',
             password: '',
             error: '',
@@ -32,15 +38,15 @@ class SignUpScreen extends Component {
             .then(this.OnSignUpSuccess)
             .catch((error) => this.setState({ error: error.message, loading: false }));
         
-        this.setState({ loading: true })
+        this.setState({ loading: true });
     }
-      OnSignUpSuccess=() =>{
+      OnSignUpSuccess=() => {
         firebase.database().ref('/UsersDetail').push({
             FirstName: this.state.name,
             DOB: this.state.dob,
             Email: this.state.email,
             Password: this.state.password
-        }).catch((error) => alert(error))
+        }).catch((error) => alert(error));
       }
     // OnSignUpSuccess = () => {
     //     firebase
@@ -55,12 +61,27 @@ class SignUpScreen extends Component {
     //     this.setState({ loading: false });
     //     this.props.navigation.navigate('Tab');
     // }
-
+    datepicker= async (options) => {
+        try {
+            const { action, year, month, day } = await DatePickerAndroid.open(options);
+            if (action === DatePickerAndroid.dismissedAction) {
+                this.setState({ dob: 'Date Of Birth' });
+            } else {
+              const date = new Date(year, month, day);
+              this.setState({ dob: date.toLocaleDateString() });
+                  }
+            } catch ({ message }) {
+              // eslint-disable-next-line no-undef
+              alert(message);
+        }
+      }
 
 
     renderLoadUp() {
+        const { date, minDate, maxDate } = this.state;
         if (this.state.loading) {
             return (
+                // eslint-disable-next-line max-len
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
                     <Text style={{ fontSize: 20, color: 'black', marginBottom: 20 }}>
                         Please Wait
@@ -117,7 +138,13 @@ class SignUpScreen extends Component {
                         // onChangeText={(dob) => this.setState({ dob })}
                         //value={this.state.dob}
                         />
-                        <Icon name="calendar" size={26} color='gray' style={styles.calendarIcon} />
+                        <Icon 
+                            name="calendar" 
+                            onPress={() => this.datepicker({ date, maxDate, minDate })}
+                            size={26} 
+                            color='gray' 
+                            style={styles.calendarIcon} 
+                        />
                     </View>
 
                     <TextInput
@@ -225,7 +252,7 @@ const styles = {
         right: 0,
         bottom: 0,
         marginRight: 3,
-        marginBottom: 12
+        marginBottom: 14
     }
 };
 function mapStateToProps(state) {
