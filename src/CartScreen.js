@@ -19,11 +19,11 @@ class CartScreen extends Component {
             locality: '',
             city: '',
             pincode: '',
-            isVisible: false
-        };
-        
+            isVisible: false,
+            addressError: ''
+        };   
     }
-
+    
     renderTotal() {
         let total = 0;
         for (const pizza of this.props.pizzas.pizza) {
@@ -64,6 +64,15 @@ class CartScreen extends Component {
         );
     }
 
+    onPressAddressButton() {
+         const { flat, locality, city, pincode } = this.state;
+         if (flat === '' || city === '' || locality === '' || pincode === '') {
+            this.setState({ addressError: 'Some Fields are empty!' });
+         } else {
+             this.setState({ address: true });
+         }
+    }
+
     renderAddress() {
         if (this.state.address) {
             return (
@@ -92,10 +101,10 @@ class CartScreen extends Component {
                                 padding: 5,
                                 borderColor: 'black' }}
                         >
-                            <Text style={{ fontSize: 18 }}>{this.state.flat},</Text>
-                            <Text style={{ fontSize: 18 }}>{this.state.locality},</Text>
-                            <Text style={{ fontSize: 18 }}>{this.state.city},</Text>
-                            <Text style={{ fontSize: 18 }}>{this.state.pincode}.</Text>
+                            <Text style={{ fontSize: 18 }}>{this.state.flat}</Text>
+                            <Text style={{ fontSize: 18 }}>{this.state.locality}</Text>
+                            <Text style={{ fontSize: 18 }}>{this.state.city}</Text>
+                            <Text style={{ fontSize: 18 }}>{this.state.pincode}</Text>
                         </View>
                     </View>
                 </View>
@@ -136,6 +145,15 @@ class CartScreen extends Component {
                                 onChangeText={(pincode) => this.setState({ pincode })}
                                 value={this.state.pincode}
                             />
+                            <Text 
+                                style={{
+                                    fontSize: 18,
+                                    color: 'red',
+                                    margin: 5
+                                }}
+                            >
+                                {this.state.addressError}
+                            </Text>
                             <TouchableOpacity 
                                 style={{ marginTop: 15, 
                                     backgroundColor: 'green',
@@ -147,7 +165,7 @@ class CartScreen extends Component {
                                     borderColor: 'black',
                                     borderRadius: 10,
                                     borderWidth: 2 }}
-                                onPress={() => this.setState({ address: true })}
+                                onPress={() => this.onPressAddressButton()}
                             >
                                 <Text style={{ fontSize: 18, color: 'white' }}>Add</Text>
                             </TouchableOpacity>
@@ -171,6 +189,39 @@ class CartScreen extends Component {
             });
         
         this.setState({ isVisible: true });
+    }
+
+    renderPaymentButton() {
+        if (this.props.pizzas.pizza.length > 0) {
+            return (
+                    <TouchableOpacity 
+                            style={{ 
+                                width: windowWidth,
+                                height: 50,
+                                backgroundColor: 'green',
+                                borderTopWidth: 1,
+                                borderColor: 'black',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                padding: 10,
+                                flexDirection: 'row' }}
+                            onPress={() => this.orderPizza()}
+                    >
+                            <Text 
+                                style={{ fontSize: 20, 
+                                    color: 'white' }}
+                            >
+                                Make payment
+                            </Text>
+                            <Text 
+                                style={{ fontSize: 20, 
+                                    color: 'white' }}
+                            >
+                                Total: ₹{this.renderTotal()}
+                            </Text>
+                        </TouchableOpacity>
+            );
+        }
     }
 
     render() {
@@ -199,32 +250,8 @@ class CartScreen extends Component {
                         {this.renderCart()}
 
                 </View>
-                <TouchableOpacity 
-                        style={{ 
-                            width: windowWidth,
-                            height: 50,
-                            backgroundColor: 'green',
-                            borderTopWidth: 1,
-                            borderColor: 'black',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            padding: 10,
-                            flexDirection: 'row' }}
-                        onPress={() => this.orderPizza()}
-                >
-                        <Text 
-                            style={{ fontSize: 20, 
-                                color: 'white' }}
-                        >
-                            Make payment
-                        </Text>
-                        <Text 
-                            style={{ fontSize: 20, 
-                                color: 'white' }}
-                        >
-                            Total: ₹{this.renderTotal()}
-                        </Text>
-                    </TouchableOpacity>
+
+                {this.renderPaymentButton()}
 
                     <Modal
                         isVisible={this.state.isVisible}
