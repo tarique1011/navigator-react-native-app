@@ -6,12 +6,14 @@ import { createStackNavigator,
 import { fadeIn, zoomIn, flipY, flipX, zoomOut, fromRight } from 'react-navigation-transitions';
 import firebase from 'firebase';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import CartScreen from './src/CartScreen';
 import MenuScreen from './src/MenuScreen';
 import SignUpScreen from './src/SignUpScreen';
 import LogInScreen from './src/LogInScreen';
 import LoadingScreen from './src/Loading';
 import UserProfileScreen from './src/UserProfileScreen';
+import OrderInTransitScreen from './src/OrderInTransitScreen';
 
 const TabNavigator = createBottomTabNavigator({
     Menu: {
@@ -19,7 +21,7 @@ const TabNavigator = createBottomTabNavigator({
       navigationOptions: {
         tabBarLabel: () => null,
         tabBarIcon: ({ tintColor }) => (
-            <FontAwesome5 name={'bars'} size={20} color={tintColor} solid />
+            <Ionicons name='md-home' size={20} color={tintColor} solid />
         )
       }
     },
@@ -28,7 +30,16 @@ const TabNavigator = createBottomTabNavigator({
       navigationOptions: {
         tabBarLabel: () => null,
         tabBarIcon: ({ tintColor }) => (
-            <FontAwesome5 name='cart-arrow-down' size={20} color={tintColor} solid />
+            <Ionicons name='md-cart' size={20} color={tintColor} solid />
+        )
+      }
+    },
+    OrderInTransit: {
+      screen: OrderInTransitScreen,
+      navigationOptions: {
+        tabBarLabel: () => null,
+        tabBarIcon: ({ tintColor }) => (
+            <FontAwesome5 name='receipt' size={20} color={tintColor} solid />
         )
       }
     },

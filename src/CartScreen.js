@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, Dimensions, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, FlatList, Dimensions, TouchableOpacity, TextInput, Animated } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
@@ -177,21 +177,24 @@ class CartScreen extends Component {
     }
 
     orderPizza() {
-        const email = firebase.auth().currentUser.email;
-        const userId = email.split('@')
-                        .join('')
-                        .split('.')
-                        .join('')
-                        .split('_')
-                        .join('');
-        firebase
-            .database()
-            .ref(`/lastorder/${userId}`)
-            .set({
-                pizza: this.props.pizzas.pizza
-            });
-        
-        this.setState({ isVisible: true });
+        if (this.state.address) {
+            const email = firebase.auth().currentUser.email;
+            const userId = email.split('@')
+                            .join('')
+                            .split('.')
+                            .join('')
+                            .split('_')
+                            .join('');
+            firebase
+                .database()
+                .ref(`/lastorder/${userId}`)
+                .set({
+                    pizza: this.props.pizzas.pizza
+                });
+            this.setState({ isVisible: true });
+        } else {
+            this.setState({ addressError: 'Please provide an Address!' });
+        }
     }
 
     renderPaymentButton() {
@@ -239,7 +242,7 @@ class CartScreen extends Component {
                         height: 20,
                         width: 20
                     }}
-                    onPress={() => this.props.addPizza([])}
+                    onPress={() => { this.props.addPizza([]); }}
                 >
 
                     <FontAwesome5 name='times' size={16} color={'white'} solid />          
@@ -249,12 +252,19 @@ class CartScreen extends Component {
         }
     }
 
+    renderOrderSuccess() {
+        this.setState({ isVisible: false });
+        this.props.addPizza([]);
+        this.props.navigation.navigate('OrderInTransit');
+    }
+
     render() {
         return (
             <KeyboardAwareScrollView 
                 keyboardShouldPersistTaps='handled'
                 contentContainerStyle={{ flexGrow: 1 }}
             >
+
                 <View style={{ flex: 1 }}>
                     <View 
                         style={{ margin: 10,
@@ -275,6 +285,7 @@ class CartScreen extends Component {
                         </Text>
                         
                         {this.renderClearCart()}
+
                     </View>
                         
                         {this.renderCart()}
@@ -285,7 +296,7 @@ class CartScreen extends Component {
 
                     <Modal
                         isVisible={this.state.isVisible}
-                        onBackdropPress={() => this.setState({ isVisible: false })}
+                        onBackdropPress={() => this.renderOrderSuccess()}
                         animationIn='slideInUp'
                         animationOut='slideOutDown'
                     >
