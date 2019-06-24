@@ -80,8 +80,12 @@ class MenuScreen extends Component {
                 .database()
                 .ref(`/lastorder/${userId}`)
                 .on('value', (snapshot) => {
-                    this.setState({ lastorder: [...snapshot.val().pizza] });
-                    this.setState({ fetching: false });
+                    if (snapshot.val() !== null) {
+                        this.setState({ lastorder: [...snapshot.val().pizza] });
+                        this.setState({ fetching: false });
+                    } else {
+                        this.setState({ fetching: false });
+                    }
                 });
     }
 
@@ -170,50 +174,67 @@ class MenuScreen extends Component {
 
     renderPreviousOrders() {
         if (!this.state.fetching) {
-            return (
-                <View 
-                    style={{
-                        height: 200,
-                        alignItems: 'center'
-                    }}
-                >
-                <FlatList
-                    showsHorizontalScrollIndicator={false}
-                    horizontal
-                    data={this.state.lastorder}
-                    renderItem={({ item }) => (
-                        <View 
-                            style={{
-                                width: 200,
-                                height: 180,
-                                justifyContent: 'space-around',
-                                alignItems: 'center',
-                                borderRadius: 2,
-                                shadowColor: '#000',
-                                shadowOffset: { width: -2, height: 5 },
-                                shadowOpacity: 0.1,
-                                shadowRadius: 2,
-                                elevation: 3,
-                                marginLeft: 10,
-                                marginRight: 5,
-                                marginTop: 10
-                            }}
-                        >
-                            <Text style={{ fontSize: 15 }}>{item.name}</Text>
-                            <Image
-                                style={{ 
-                                    width: 150, 
-                                    height: 150,
-                                    borderRadius: 75 
-                                }} 
-                                source={this.getImageById(item.id)} 
-                            />
-                        </View>
-                    )}
-                    keyExtractor={item => item.id}
-                />
-                </View>
-            ); 
+            if (this.state.lastorder.length > 0) {
+                return (
+                    <View 
+                        style={{
+                            height: 200,
+                            alignItems: 'center'
+                        }}
+                    >
+                    <FlatList
+                        showsHorizontalScrollIndicator={false}
+                        horizontal
+                        data={this.state.lastorder}
+                        renderItem={({ item }) => (
+                            <View 
+                                style={{
+                                    width: 200,
+                                    height: 180,
+                                    justifyContent: 'space-around',
+                                    alignItems: 'center',
+                                    borderRadius: 2,
+                                    shadowColor: '#000',
+                                    shadowOffset: { width: -2, height: 5 },
+                                    shadowOpacity: 0.1,
+                                    shadowRadius: 2,
+                                    elevation: 3,
+                                    marginLeft: 10,
+                                    marginRight: 5,
+                                    marginTop: 10
+                                }}
+                            >
+                                <Text style={{ fontSize: 15 }}>{item.name}</Text>
+                                <Image
+                                    style={{ 
+                                        width: 150, 
+                                        height: 150,
+                                        borderRadius: 75 
+                                    }} 
+                                    source={this.getImageById(item.id)} 
+                                />
+                            </View>
+                        )}
+                        keyExtractor={item => item.id}
+                    />
+                    </View>
+                ); 
+            } else {
+                return (
+                    <View 
+                        style={{
+                            width: '95%',
+                            padding: 10,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderWidth: 1,
+
+                        }}
+                    >
+                        <Text style={{ fontSize: 18, textAlign: 'center' }}>You haven't ordered anything. Try some of Jaipur's finest Pizzas.</Text>
+                    </View>
+                );
+            }
         }
 
         return (
