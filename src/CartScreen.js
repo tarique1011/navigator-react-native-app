@@ -7,7 +7,7 @@ import Modal from 'react-native-modal';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import LottieView from 'lottie-react-native';
 import animation from './animations/Check Mark Success Data.json';
-import { addPizza } from './actions';
+import { addPizza, resetMenu } from './actions';
 
 
 const { width: windowWidth } = Dimensions.get('window');
@@ -196,6 +196,7 @@ class CartScreen extends Component {
                     pizza: this.props.pizzas.pizza
                 });
             this.setState({ isVisible: true });
+            this.props.resetMenu();
         } else {
             this.setState({ addressError: 'Please add an address!' });
         }
@@ -377,4 +378,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { addPizza })(CartScreen);
+export default connect(mapStateToProps, { addPizza, resetMenu })(CartScreen);
