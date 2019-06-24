@@ -4,8 +4,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { connect } from 'react-redux';
 import firebase from 'firebase';
 import Modal from 'react-native-modal';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import LottieView from 'lottie-react-native';
 import animation from './animations/Check Mark Success Data.json';
+import { addPizza } from './actions';
+
 
 const { width: windowWidth } = Dimensions.get('window');
 
@@ -224,6 +227,28 @@ class CartScreen extends Component {
         }
     }
 
+    renderClearCart() {
+        if (this.props.pizzas.pizza.length > 0) {
+            return (
+                <TouchableOpacity 
+                    style={{ 
+                        backgroundColor: 'red',
+                        borderRadius: 10,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: 20,
+                        width: 20
+                    }}
+                    onPress={() => this.props.addPizza([])}
+                >
+
+                    <FontAwesome5 name='times' size={16} color={'white'} solid />          
+
+                </TouchableOpacity>
+            );
+        }
+    }
+
     render() {
         return (
             <KeyboardAwareScrollView 
@@ -232,19 +257,24 @@ class CartScreen extends Component {
             >
                 <View style={{ flex: 1 }}>
                     <View 
-                        style={{ margin: 5,
-                            padding: 10, 
-                            alignItems: 'flex-start' }}
+                        style={{ margin: 10,
+                            paddingLeft: 10,
+                            paddingRight: 10, 
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between'
+                         }}
                     >
                         <Text 
                             style={{ fontSize: 25, 
-                                color: 'black', 
-                                marginBottom: 10,
+                                color: 'black',
                                 fontWeight: '600',
                                 fontFamily: 'Roboto' }}
                         >
                             Your Cart
                         </Text>
+                        
+                        {this.renderClearCart()}
                     </View>
                         
                         {this.renderCart()}
@@ -332,4 +362,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, null)(CartScreen);
+export default connect(mapStateToProps, { addPizza })(CartScreen);
