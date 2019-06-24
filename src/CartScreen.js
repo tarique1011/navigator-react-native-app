@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, Dimensions, TouchableOpacity, TextInput } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 
 const { width: windowWidth } = Dimensions.get('window');
 
@@ -147,7 +148,22 @@ class CartScreen extends Component {
                             </TouchableOpacity>
                         </View>
         );
+    }
 
+    orderPizza() {
+        const email = firebase.auth().currentUser.email;
+        const userId = email.split('@')
+                        .join('')
+                        .split('.')
+                        .join('')
+                        .split('_')
+                        .join('');
+        firebase
+            .database()
+            .ref(`/lastorder/${userId}`)
+            .set({
+                pizza: this.props.pizzas.pizza
+            });
     }
 
     render() {
@@ -187,6 +203,7 @@ class CartScreen extends Component {
                             justifyContent: 'space-between',
                             padding: 10,
                             flexDirection: 'row' }}
+                        onPress={() => this.orderPizza()}
                 >
                         <Text 
                             style={{ fontSize: 20, 

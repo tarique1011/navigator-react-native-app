@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { StackActions, NavigationActions } from 'react-navigation';
 import firebase from 'firebase';
@@ -17,6 +17,7 @@ class MenuScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            fetching: true,
             button: true,
             pizza: [
                 {
@@ -54,10 +55,29 @@ class MenuScreen extends Component {
                     price: 300,
                     source: Images.pizza5.source
                 }
-            ]
+            ],
+            lastorder: []
         };
     }
-    
+
+    componentDidMount() {
+        const email = firebase.auth().currentUser.email;
+            const userId = email.split('@')
+                            .join('')
+                            .split('.')
+                            .join('')
+                            .split('_')
+                            .join('');
+            
+            firebase
+                .database()
+                .ref(`/lastorder/${userId}`)
+                .on('value', (snapshot) => {
+                    this.setState({ lastorder: [...snapshot.val().pizza] });
+                    this.setState({ fetching: false });
+                });
+    }
+
     handleLogOut = () => {
         const resetAction = StackActions.reset({
             index: 0,
@@ -89,6 +109,16 @@ class MenuScreen extends Component {
         const orderedPizza = array.filter((data) => data.count !== 0);
         this.props.addPizza(orderedPizza);
         this.props.navigation.navigate('Cart');
+    }
+
+    getImageById(id) {
+        let source = '';
+        for (const data of this.state.pizza) {
+            if (data.id === id) {
+                source = data.source;
+            }
+        }
+        return source;
     }
 
     renderCounter(index) {
@@ -150,12 +180,83 @@ class MenuScreen extends Component {
         );
     }
 
+    renderPreviousOrders() {
+        if (!this.state.fetching) {
+            return (
+                <View 
+                    style={{
+                        height: 200,
+                        alignItems: 'center'
+                    }}
+                >
+                <FlatList
+                    showsHorizontalScrollIndicator={false}
+                    horizontal
+                    data={this.state.lastorder}
+                    renderItem={({ item }) => (
+                        <View 
+                            style={{
+                                width: 200,
+                                height: 200,
+                                justifyContent: 'space-around',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Text style={{ fontSize: 15 }}>{item.name}</Text>
+                            <Image
+                                style={{ 
+                                    width: 150, 
+                                    height: 150,
+                                    borderRadius: 75 
+                                }} 
+                                source={this.getImageById(item.id)} 
+                            />
+                        </View>
+                    )}
+                />
+                </View>
+            ); 
+        }
+
+        return (
+            <ActivityIndicator size='large' />
+        );
+    }
+
     render() {
     const { pizza } = this.state;
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+            <View>
+            <Text 
+                style={{ 
+                    margin: 10,
+                    textAlign: 'left',
+                    fontSize: 28,
+                    color: '#9e0606',
+                    fontWeight: 'bold',
+                    fontFamily: 'sans-serif'
+                }}
+            >
+                Your Previous Orders
+            </Text>
 
+                {this.renderPreviousOrders()}
+
+            </View>
+            <Text 
+                style={{ 
+                    margin: 10,
+                    textAlign: 'left',
+                    fontSize: 25,
+                    color: '#9e0606',
+                    fontWeight: 'bold',
+                    fontFamily: 'sans-serif'
+                }}
+            >
+                Menu
+            </Text> 
             <FlatList 
                 style={{ width: '100%' }}
                 data={pizza}

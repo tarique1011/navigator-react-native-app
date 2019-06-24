@@ -26,21 +26,22 @@ class SignUpScreen extends Component {
 
 
     handleSignUp = () => {
-
         firebase
             .auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            //.then(this.OnSignUpSuccess)
+            .then(this.OnSignUpSuccess)
             .catch((error) => this.setState({ error: error.message, loading: false }));
+        
+        this.setState({ loading: true })
+    }
+      OnSignUpSuccess=() =>{
         firebase.database().ref('/UsersDetail').push({
             FirstName: this.state.name,
             DOB: this.state.dob,
             Email: this.state.email,
             Password: this.state.password
         }).catch((error) => alert(error))
-        this.setState({ loading: true })
-    }
-
+      }
     // OnSignUpSuccess = () => {
     //     firebase
     //         .database()
