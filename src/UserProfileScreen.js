@@ -42,10 +42,7 @@ class UserProfileScreen extends Component {
             }else{
                    this.setState({avatar:response.uri})
                    
-                //    firebase.database().ref('/UsersDetail').push({
-                    
-                //     Image: this.state.avatar
-                // }).catch((error) => alert(error));
+        
                    console.warn(this.state.avatar)
             }
         })
@@ -55,7 +52,8 @@ class UserProfileScreen extends Component {
 
 
     render() {
-      //  console.warn(firebase.auth().cu)
+        console.warn(this.userInfo)
+        console.warn(firebase.currentUser)
         let username = '';
         let userEmail = '';
         let userDOB = '';
@@ -67,6 +65,8 @@ class UserProfileScreen extends Component {
         }
 
         return (
+            
+        
             <View style={{ flex: 1 }}>
                 <View style={{ height: '35%', backgroundColor: '#ff9a3d', justifyContent: 'center', alignItems: 'center' }}>
 
