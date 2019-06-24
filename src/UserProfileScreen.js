@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 
 import { View, Text, Image, Button } from 'react-native'
 import firebase from 'firebase';
-
+import ImagePicker from 'react-native-image-picker';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class UserProfileScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             loading: false,
+            modalVisible: false,
+            avatar:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Tom_Cruise_avp_2014_4.jpg/170px-Tom_Cruise_avp_2014_4.jpg'
         };
     }
 
@@ -27,16 +30,35 @@ class UserProfileScreen extends Component {
         })
 
     }
-
-
+       
+    addAvatar=()=>{
+        ImagePicker.showImagePicker(null,response=>{
+            if(response.didCancel){
+                console.warn('Really ??')
+    
+            }else if(response.error){
+                console.warn(response.error)
+    
+            }else{
+                   this.setState({avatar:response.uri})
+                   
+                //    firebase.database().ref('/UsersDetail').push({
+                    
+                //     Image: this.state.avatar
+                // }).catch((error) => alert(error));
+                   console.warn(this.state.avatar)
+            }
+        })
+    }
 
 
 
 
     render() {
+        console.warn(firebase.auth().currentUser)
         let username = '';
         let userEmail = '';
-        let userDOB = ''
+        let userDOB = '';
 
         if (this.state.loading) {
             username = this.userInfo.FirstName;
@@ -48,7 +70,8 @@ class UserProfileScreen extends Component {
             <View style={{ flex: 1 }}>
                 <View style={{ height: '35%', backgroundColor: '#ff9a3d', justifyContent: 'center', alignItems: 'center' }}>
 
-                    <Image source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Tom_Cruise_avp_2014_4.jpg/170px-Tom_Cruise_avp_2014_4.jpg' }}
+                  <View style={{flexDirection:'row'}}>
+                  <Image source={{ uri: this.state.avatar }}
                         style={{
                             width: 150,
                             height: 150,
@@ -58,7 +81,8 @@ class UserProfileScreen extends Component {
                         resizeMode='cover'
 
                     />
-
+                    <Icon name="edit" size={20} color='white' onPress={()=>this.addAvatar()} style={{position:'absolute', bottom:16,right:7}}/>
+                  </View>
                     <Text style={{ fontSize: 20, fontWeight: '500', marginBottom: 5, marginTop: 2 }}>Hello,{username}</Text>
                 </View>
 
@@ -81,9 +105,11 @@ class UserProfileScreen extends Component {
 
                             <Text style={{ fontSize: 17, fontWeight: '500', color: 'white' }}>DOB:{userDOB}</Text>
                         </View>
+
                     </View>
                 </View>
                 <Button title="sign Out" onPress={async ()=>{return( await firebase.auth().signOut(),this.props.navigation.navigate('Loading'))}}/>
+                
             </View>
 
 
