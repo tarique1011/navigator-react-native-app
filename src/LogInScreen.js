@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import { StackActions, NavigationActions } from 'react-navigation';
 import firebase from 'firebase';
 import LotteView from 'lottie-react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { userUpdate } from './actions';
-import anim from './animations/wave-loading.json';
+import anim from './animations/splashy-loader.json';
 
 class LogInScreen extends Component {
     static navigationOptions ={
@@ -20,8 +21,7 @@ class LogInScreen extends Component {
             error: '',
             authentication: false
         };
-    } 
-      
+    }
 
     handleOnLogin = () => {
         this.setState({ authenticating: true });
@@ -32,7 +32,11 @@ class LogInScreen extends Component {
             .signInWithEmailAndPassword(email, password)
             .then(() => {
                 this.setState({ authenticating: false, email: '', password: '' });
-                this.props.navigation.navigate('Tab');
+                const resetAction = StackActions.reset({
+                    index: 0,
+                    actions: [NavigationActions.navigate({ routeName: 'Tab' })]
+                });
+                this.props.navigation.dispatch(resetAction);
             })
             .catch((error) => this.setState({ error: error.message, authenticating: false, password: '' }));
     }
@@ -40,7 +44,12 @@ class LogInScreen extends Component {
     renderLoadUp() {
         if (this.state.authenticating) {
             return (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
+                <View 
+                    style={{ flex: 1, 
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    backgroundColor: '#fff' }}
+                >
                     <Text style={{ fontSize: 20, color: 'black', marginBottom: 20 }}>
                         Please Wait
                     </Text>

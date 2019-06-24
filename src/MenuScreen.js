@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { 
+        View, 
+        Text, 
+        Image, 
+        FlatList, 
+        TouchableOpacity, 
+        ScrollView, 
+        ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { StackActions, NavigationActions } from 'react-navigation';
 import firebase from 'firebase';
@@ -78,19 +85,17 @@ class MenuScreen extends Component {
                 });
     }
 
-    handleLogOut = () => {
-        const resetAction = StackActions.reset({
-            index: 0,
-            actions: [NavigationActions.navigate({ routeName: 'SignIn' })],
-        });
-
-        firebase
-            .auth()
-            .signOut()
-            .then(() => this.props.navigation.dispatch(resetAction));
+    getImageById(id) {
+        let source = '';
+        for (const data of this.state.pizza) {
+            if (data.id === id) {
+                source = data.source;
+            }
+        }
+        return source;
     }
 
-    incrementCounter(index) {
+     incrementCounter(index) {
         const array = [...this.state.pizza];
         array[index].count += 1;
         this.setState({ pizza: array });
@@ -102,23 +107,6 @@ class MenuScreen extends Component {
             array[index].count -= 1;
             this.setState({ pizza: array });
         }
-    }
-
-    AddToCart() {
-        const array = [...this.state.pizza];
-        const orderedPizza = array.filter((data) => data.count !== 0);
-        this.props.addPizza(orderedPizza);
-        this.props.navigation.navigate('Cart');
-    }
-
-    getImageById(id) {
-        let source = '';
-        for (const data of this.state.pizza) {
-            if (data.id === id) {
-                source = data.source;
-            }
-        }
-        return source;
     }
 
     renderCounter(index) {
@@ -197,9 +185,18 @@ class MenuScreen extends Component {
                         <View 
                             style={{
                                 width: 200,
-                                height: 200,
+                                height: 180,
                                 justifyContent: 'space-around',
-                                alignItems: 'center'
+                                alignItems: 'center',
+                                borderRadius: 2,
+                                shadowColor: '#000',
+                                shadowOffset: { width: -2, height: 5 },
+                                shadowOpacity: 0.1,
+                                shadowRadius: 2,
+                                elevation: 3,
+                                marginLeft: 10,
+                                marginRight: 5,
+                                marginTop: 10
                             }}
                         >
                             <Text style={{ fontSize: 15 }}>{item.name}</Text>
@@ -213,6 +210,7 @@ class MenuScreen extends Component {
                             />
                         </View>
                     )}
+                    keyExtractor={item => item.id}
                 />
                 </View>
             ); 
@@ -223,32 +221,42 @@ class MenuScreen extends Component {
         );
     }
 
+    AddToCart() {
+        const array = [...this.state.pizza];
+        const orderedPizza = array.filter((data) => data.count !== 0);
+        this.props.addPizza(orderedPizza);
+        this.props.navigation.navigate('Cart');
+    }
+
     render() {
     const { pizza } = this.state;
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+            <View 
+                style={{
+                    alignItems: 'center'
+                }}
+            >
+                <Text 
+                    style={{ 
+                        margin: 10,
+                        fontSize: 28,
+                        color: '#9e0606',
+                        fontWeight: 'bold',
+                        fontFamily: 'sans-serif'
+                    }}
+                >
+                    Your Previous Orders
+                </Text>
+            </View>
+
+                {this.renderPreviousOrders()}
+
             <View>
             <Text 
                 style={{ 
                     margin: 10,
-                    textAlign: 'left',
-                    fontSize: 28,
-                    color: '#9e0606',
-                    fontWeight: 'bold',
-                    fontFamily: 'sans-serif'
-                }}
-            >
-                Your Previous Orders
-            </Text>
-
-                {this.renderPreviousOrders()}
-
-            </View>
-            <Text 
-                style={{ 
-                    margin: 10,
-                    textAlign: 'left',
                     fontSize: 25,
                     color: '#9e0606',
                     fontWeight: 'bold',
@@ -257,6 +265,7 @@ class MenuScreen extends Component {
             >
                 Menu
             </Text> 
+            </View>
             <FlatList 
                 style={{ width: '100%' }}
                 data={pizza}
@@ -313,7 +322,7 @@ const Counter = (props) => {
             </TouchableOpacity>
 
             <View 
-                style={{ width: '30%', 
+                style={{ flex: 1, 
                     justifyContent: 'center', 
                     alignItems: 'center',
                     backgroundColor: '#eff1f2' }}
@@ -334,7 +343,7 @@ const Counter = (props) => {
 
 const styles = {
     counterRight: {
-        width: '30%', 
+        flex: 1, 
         backgroundColor: '#ff9a3d', 
         justifyContent: 'center', 
         alignItems: 'center', 
@@ -343,7 +352,7 @@ const styles = {
 
     },
     counterLeft: {
-        width: '30%', 
+        flex: 1, 
         backgroundColor: '#ff9a3d', 
         justifyContent: 'center', 
         alignItems: 'center', 

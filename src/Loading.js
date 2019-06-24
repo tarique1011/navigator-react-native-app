@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator, ImageBackground } from 'react-native';
+import { View, Text, ImageBackground } from 'react-native';
+import { StackActions, NavigationActions } from 'react-navigation';
 import LotteView from 'lottie-react-native';
 import firebase from 'firebase';
 import { Images } from './images';
 import anim from './animations/pizzaLoading.json';
 import { Button } from './components';
-
-
 
 export default class Loading extends Component {
     static navigationOptions = {
@@ -25,7 +24,11 @@ export default class Loading extends Component {
             .auth()                
             .onAuthStateChanged(user => {
                 if (user) {
-                    this.props.navigation.navigate('Tab');
+                    const resetAction = StackActions.reset({
+                        index: 0,
+                        actions: [NavigationActions.navigate({ routeName: 'Tab' })]
+                    });
+                    this.props.navigation.dispatch(resetAction);
                 } else {
                     this.setState({ loading: false });
                 }   

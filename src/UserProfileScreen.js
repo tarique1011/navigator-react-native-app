@@ -55,7 +55,7 @@ class UserProfileScreen extends Component {
 
 
     render() {
-        console.warn(firebase.auth().currentUser)
+      //  console.warn(firebase.auth().cu)
         let username = '';
         let userEmail = '';
         let userDOB = '';
