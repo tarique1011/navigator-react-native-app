@@ -93,23 +93,27 @@ class CartScreen extends Component {
                     </Text>
                     <View 
                         style={{ marginTop: 10,
-                            borderRadius: 5,
+                            borderRadius: 2,
                             padding: 5,
-                            borderWidth: 2,
-                            borderColor: 'black' }}
+                            borderWidth: 1,
+                            borderColor: 'black',
+                            shadowColor: 'black',
+                            shadowOffset: {
+                                width: 0,
+                                height: 5
+                            },
+                            shadowRadius: 2,
+                            shadowOpacity: 0.5,
+                            marginLeft: 5,
+                            marginRight: 5,
+                            elevation: 3
+                         }}
                     >
-                        <View 
-                            style={{ borderRadius: 5, 
-                                borderWidth: 1,
-                                padding: 5,
-                                borderColor: 'black' }}
-                        >
                             <Text style={{ fontSize: 18 }}>{this.state.flat}</Text>
                             <Text style={{ fontSize: 18 }}>{this.state.locality}</Text>
                             <Text style={{ fontSize: 18 }}>{this.state.city}</Text>
                             <Text style={{ fontSize: 18 }}>{this.state.pincode}</Text>
                         </View>
-                    </View>
                 </View>
             );
         }
@@ -159,7 +163,7 @@ class CartScreen extends Component {
                             </Text>
                             <TouchableOpacity 
                                 style={{ marginTop: 15, 
-                                    backgroundColor: 'green',
+                                    backgroundColor: '#9e0606',
                                     width: '25%',
                                     height: 40,
                                     alignSelf: 'flex-end',
@@ -193,7 +197,7 @@ class CartScreen extends Component {
                 });
             this.setState({ isVisible: true });
         } else {
-            this.setState({ addressError: 'Please provide an Address!' });
+            this.setState({ addressError: 'Please add an address!' });
         }
     }
 
@@ -204,7 +208,7 @@ class CartScreen extends Component {
                             style={{ 
                                 width: windowWidth,
                                 height: 50,
-                                backgroundColor: 'green',
+                                backgroundColor: '#9e0606',
                                 borderTopWidth: 1,
                                 borderColor: 'black',
                                 alignItems: 'center',

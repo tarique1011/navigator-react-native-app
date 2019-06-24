@@ -6,7 +6,7 @@ import firebase from 'firebase';
 import LotteView from 'lottie-react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { userUpdate } from './actions';
-import anim from './animations/wave-loading.json';
+import anim from './animations/splashy-loader.json';
 
 class SignUpScreen extends Component {
 	static navigationOptions = {
@@ -55,7 +55,14 @@ class SignUpScreen extends Component {
 	renderLoadUp() {
 		if (this.state.loading) {
 			return (
-				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
+                <View 
+                    style={{ 
+                        flex: 1, 
+                        justifyContent: 'center', 
+                        alignItems: 'center', 
+                        backgroundColor: '#fff' 
+                    }}
+                >
 					<Text style={{ fontSize: 20, color: 'black', marginBottom: 20 }}>Please Wait</Text>
 					<LotteView style={{ width: 150, height: 150 }} source={anim} autoPlay loop />
 				</View>
