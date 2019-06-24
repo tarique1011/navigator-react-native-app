@@ -107,19 +107,19 @@ class LogInScreen extends Component {
                         >
                             <Text 
                                 style={{ color: '#fff', 
-                                        fontSize: 20 }}
+                                        fontSize: 16 }}
                             >If you don't have an account </Text>
                             <TouchableOpacity 
                                 onPress={() => this.props.navigation.navigate('SignUp')}
                             >  
                                 <Text 
                                     style={{ color: '#ff9a3d', 
-                                    fontSize: 20, 
+                                    fontSize: 16, 
                                     fontWeight: 'bold', 
                                     fontFamily: 'sans-serif' }}
                                 >Sign up </Text>
                             </TouchableOpacity>
-                            <Text style={{ color: '#fff', fontSize: 20 }}>here.</Text>
+                            <Text style={{ color: '#fff', fontSize: 16 }}>here.</Text>
                         </View>
                     </View>
             </KeyboardAwareScrollView>

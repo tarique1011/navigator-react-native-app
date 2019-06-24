@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, DatePickerAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
 import LotteView from 'lottie-react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { userUpdate } from './actions';
 import anim from './animations/wave-loading.json';
-
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 class SignUpScreen extends Component {
     static navigationOptions = {
         title: 'Sign Up'
@@ -15,9 +14,9 @@ class SignUpScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
             name: '',
-            dob: '',
+            dob: 'Date Of Birth',
             email: '',
             password: '',
             error: '',
@@ -25,21 +24,22 @@ class SignUpScreen extends Component {
         };
     }
 
+
     handleSignUp = () => {
-       
+
         firebase
             .auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             //.then(this.OnSignUpSuccess)
             .catch((error) => this.setState({ error: error.message, loading: false }));
-            firebase.database().ref('/UsersDetail').push({
-                FirstName:this.state.name,
-                DOB:this.state.dob,
-                Email:this.state.email,
-                Password:this.state.password
-            }).catch((error)=>alert(error))
-            this.setState({ loading: true })
-        }
+        firebase.database().ref('/UsersDetail').push({
+            FirstName: this.state.name,
+            DOB: this.state.dob,
+            Email: this.state.email,
+            Password: this.state.password
+        }).catch((error) => alert(error))
+        this.setState({ loading: true })
+    }
 
     // OnSignUpSuccess = () => {
     //     firebase
@@ -54,7 +54,8 @@ class SignUpScreen extends Component {
     //     this.setState({ loading: false });
     //     this.props.navigation.navigate('Tab');
     // }
-    
+
+
 
     renderLoadUp() {
         if (this.state.loading) {
@@ -63,9 +64,11 @@ class SignUpScreen extends Component {
                     <Text style={{ fontSize: 20, color: 'black', marginBottom: 20 }}>
                         Please Wait
                     </Text>
-                    <LotteView 
-                        style={{ width: 150,
-                                height: 150 }}
+                    <LotteView
+                        style={{
+                            width: 150,
+                            height: 150
+                        }}
                         source={anim}
                         autoPlay
                         loop
@@ -78,63 +81,73 @@ class SignUpScreen extends Component {
         return (
             <KeyboardAwareScrollView
                 keyboardShouldPersistTaps='handled'
-                contentContainerStyle={{ flexGrow: 1, 
-                                        justifyContent: 'center', 
-                                        alignItems: 'center' }}
+                contentContainerStyle={{
+                    flexGrow: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
             >
-                    <View 
-                        style={{ flex: 1, 
-                                width: '100%',
-                                backgroundColor: '#33445B', 
-                                alignItems: 'center', 
-                                justifyContent: 'center' }}
+                <View
+                    style={{
+                        flex: 1,
+                        width: '100%',
+                        backgroundColor: '#33445B',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}
+                >
+                    <Text style={styles.text}>Joe's Pizza</Text>
+                    <TextInput
+                        underlineColorAndroid='#fff'
+                        style={styles.input}
+                        placeholder='First Name'
+                        placeholderTextColor='#fff'
+                        onChangeText={(name) => this.setState({ name })}
+                        value={this.state.name}
+                    />
+
+                    <View style={styles.calendarView}>
+                        <TextInput
+                            underlineColorAndroid='#fff'
+                            style={styles.calendarTextInput}
+                            editable={false}
+                            placeholder={this.state.dob}
+                            placeholderTextColor='#fff'
+                        // onChangeText={(dob) => this.setState({ dob })}
+                        //value={this.state.dob}
+                        />
+                        <Icon name="calendar" size={26} color='gray' style={styles.calendarIcon} />
+                    </View>
+
+                    <TextInput
+                        underlineColorAndroid='#fff'
+                        style={styles.input}
+                        placeholder='Email'
+                        placeholderTextColor='#fff'
+                        onChangeText={(email) => this.setState({ email })}
+                        value={this.state.email}
+                    />
+                    <TextInput
+                        underlineColorAndroid='#fff'
+                        style={styles.input}
+                        placeholder='Password'
+                        secureTextEntry
+                        placeholderTextColor='#fff'
+                        onChangeText={(password) => this.setState({ password })}
+                        value={this.state.password}
+                    />
+
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={this.handleSignUp}
                     >
-                        <Text style={styles.text}>Joe's Pizza</Text>
-                        <TextInput 
-                            underlineColorAndroid='#fff'
-                            style={styles.input} 
-                            placeholder='First Name'
-                            placeholderTextColor='#fff'
-                            onChangeText={(name) => this.setState({ name })}
-                            value={this.state.name}                            
-                        />
-                        
-                        <TextInput 
-                            underlineColorAndroid='#fff'
-                            style={styles.input} 
-                            placeholder='Date Of Birth'
-                            placeholderTextColor='#fff'
-                            onChangeText={(dob) => this.setState({ dob })}
-                            value={this.state.dob}
-                        />
-                        <TextInput 
-                            underlineColorAndroid='#fff'
-                            style={styles.input} 
-                            placeholder='Email'
-                            placeholderTextColor='#fff'
-                            onChangeText={(email) => this.setState({ email })}
-                            value={this.state.email}
-                        />
-                        <TextInput 
-                            underlineColorAndroid='#fff'
-                            style={styles.input} 
-                            placeholder='Password'
-                            secureTextEntry
-                            placeholderTextColor='#fff'
-                            onChangeText={(password) => this.setState({ password })}
-                            value={this.state.password}
-                        />
-                        <TouchableOpacity 
-                            style={styles.button} 
-                            onPress={this.handleSignUp}
-                        >
-                            <Text style={styles.buttonText}>
-                                Sign Up
+                        <Text style={styles.buttonText}>
+                            Sign Up
                             </Text>
-                        </TouchableOpacity>
-                        <Text style={{ color: 'red' }}>{this.state.error}</Text>
-                    </View>     
-                </KeyboardAwareScrollView> 
+                    </TouchableOpacity>
+                    <Text style={{ color: 'red' }}>{this.state.error}</Text>
+                </View>
+            </KeyboardAwareScrollView>
         );
     }
     render() {
@@ -144,19 +157,19 @@ class SignUpScreen extends Component {
     }
 }
 const styles = {
-    cover: { 
-        position: 'absolute', 
-        top: 0,    
-        left: 0, 
-        right: 0, 
-        bottom: 0, 
-        opacity: 0.2, 
+    cover: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        opacity: 0.2,
         backgroundColor: 'white'
     },
     text: {
-        color: '#ffffff', 
-        fontSize: 50, 
-        alignSelf: 'center', 
+        color: '#ffffff',
+        fontSize: 50,
+        alignSelf: 'center',
         // marginLeft: '5%',
         textShadowColor: 'rgba(0, 0, 0, .75)',
         textShadowOffset: { width: -1, height: 2 },
@@ -193,6 +206,25 @@ const styles = {
         marginTop: 20,
         justifyContent: 'center',
         marginBottom: 10,
+    },
+    calendarView: {
+        flexDirection: 'row',
+        width: '90%',
+        marginTop: 15
+    },
+    calendarTextInput: {
+        backgroundColor: 'transparent',
+        opacity: 0.7,
+        height: 60,
+        flex: 1,
+        fontSize: 20,
+    },
+    calendarIcon: {
+        position: 'absolute',
+        right: 0,
+        bottom: 0,
+        marginRight: 3,
+        marginBottom: 12
     }
 };
 function mapStateToProps(state) {
