@@ -6,7 +6,7 @@ import firebase from 'firebase';
 import LotteView from 'lottie-react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { userUpdate } from './actions';
-import anim from './animations/wave-loading.json';
+import anim from './animations/splashy-loader.json';
 
 class LogInScreen extends Component {
     static navigationOptions ={

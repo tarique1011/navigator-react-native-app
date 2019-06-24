@@ -322,7 +322,7 @@ const Counter = (props) => {
             </TouchableOpacity>
 
             <View 
-                style={{ width: '30%', 
+                style={{ flex: 1, 
                     justifyContent: 'center', 
                     alignItems: 'center',
                     backgroundColor: '#eff1f2' }}
@@ -343,7 +343,7 @@ const Counter = (props) => {
 
 const styles = {
     counterRight: {
-        width: '30%', 
+        flex: 1, 
         backgroundColor: '#ff9a3d', 
         justifyContent: 'center', 
         alignItems: 'center', 
@@ -352,7 +352,7 @@ const styles = {
 
     },
     counterLeft: {
-        width: '30%', 
+        flex: 1, 
         backgroundColor: '#ff9a3d', 
         justifyContent: 'center', 
         alignItems: 'center', 
