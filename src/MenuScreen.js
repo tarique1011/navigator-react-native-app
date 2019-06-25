@@ -6,7 +6,8 @@ import {
         FlatList, 
         TouchableOpacity, 
         ScrollView, 
-        ActivityIndicator } from 'react-native';
+        ActivityIndicator,
+        DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
 import { StackActions, NavigationActions } from 'react-navigation';
 import firebase from 'firebase';
@@ -23,10 +24,11 @@ class MenuScreen extends Component {
 
     constructor(props) {
         super(props);
+        const listOfPizzas = [...this.props.pizzas.listOfPizzas];
         this.state = {
             fetching: true,
             button: true,
-            pizza: [...this.props.pizzas.listOfPizzas],
+            pizza: [...listOfPizzas],
             lastorder: []
         };
     }
@@ -51,9 +53,7 @@ class MenuScreen extends Component {
                         this.setState({ fetching: false });
                     }
                 });
-            if (this.props.pizzas.clear) {
-                this.setState({ pizza: this.props.pizza.listOfPizzas });
-            }
+    DeviceEventEmitter.addListener('ResetMenu', this.ResetMenu.bind(this));
     }
 
     getImageById(id) {
@@ -64,6 +64,12 @@ class MenuScreen extends Component {
             }
         }
         return source;
+    }
+
+    ResetMenu() {
+        for (const item of this.state.pizza) {
+            item.count = 0;
+        }
     }
 
      incrementCounter(index) {

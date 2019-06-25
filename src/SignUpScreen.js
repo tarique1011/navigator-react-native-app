@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, DatePickerAndroid } from 'react-native';
 import { connect } from 'react-redux';
@@ -51,7 +50,6 @@ class SignUpScreen extends Component {
               this.setState({ dob: date.toLocaleDateString() });
                   }
             } catch ({ message }) {
-              // eslint-disable-next-line no-undef
               alert(message);
         }
       }
