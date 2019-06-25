@@ -28,17 +28,6 @@ class SignUpScreen extends Component {
             loading: false
         };
     }
-
-
-    handleSignUp = () => {
-        firebase
-            .auth()
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then(this.OnSignUpSuccess)
-            .catch((error) => this.setState({ error: error.message, loading: false }));
-        
-        this.setState({ loading: true });
-    }
       
     datepicker= async (options) => {
         try {

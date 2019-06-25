@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
-import { View, Text, Image, Button, PermissionsAndroid } from 'react-native'
+import { StackActions, NavigationActions } from 'react-navigation';
+import { View, Text, Image, Button, PermissionsAndroid } from 'react-native';
 import firebase from 'firebase';
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';

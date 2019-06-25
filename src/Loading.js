@@ -3,6 +3,7 @@ import { View, Text, ImageBackground } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import LotteView from 'lottie-react-native';
 import firebase from 'firebase';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Images } from './images';
 import anim from './animations/pizzaLoading.json';
 import { Button } from './components';
@@ -42,8 +43,25 @@ export default class Loading extends Component {
                     style={imageBackground}
                     source={Images.pizza.source}
                 >
-                <View style={cover} />
+                    <View style={cover} />
                     <View style={topView}>
+                    <View 
+                        style={{
+                                position: 'absolute',
+                                right: 10,
+                                top: 5,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                    >
+                        <Ionicons 
+                            name='md-menu'
+                            size={30}
+                            color={'#020b5b'}
+                            onPress={() => this.props.navigation.navigate('Menu')}
+                        />
+                        <Text style={{ fontWeight: 'bold', color: '#020b5b', fontFamily: 'sans-serif' }}>Menu</Text>
+                    </View>
                         <Text style={label}>Joe Pizza</Text>
                     </View>  
                 <View>
