@@ -118,7 +118,7 @@ class MenuScreen extends Component {
 
                     <Image 
                         source={source} 
-                        style={{ width: 180, height: 180, borderRadius: 100 }} 
+                        style={{ width: 150, height: 150, borderRadius: 100 }} 
                     />
                 </View>
             );
@@ -130,7 +130,7 @@ class MenuScreen extends Component {
             >
                     <Image 
                         source={source} 
-                        style={{ width: 180, height: 180, borderRadius: 100 }} 
+                        style={{ width: 150, height: 150, borderRadius: 100 }} 
                     />
 
                     {this.renderCounter(id - 1)}
