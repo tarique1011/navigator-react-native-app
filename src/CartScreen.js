@@ -26,15 +26,6 @@ class CartScreen extends Component {
             addressError: ''
         };   
     }
-    
-    renderTotal() {
-        let total = 0;
-        for (const pizza of this.props.pizzas.pizza) {
-            total += (pizza.count * pizza.price);
-        }
-
-        return total;
-    }
 
     renderCart() {
         if (this.props.pizzas.pizza.length > 0) {
@@ -219,6 +210,14 @@ class CartScreen extends Component {
         }
     }
 
+     renderTotal() {
+        let total = 0;
+        for (const pizza of this.props.pizzas.pizza) {
+            total += (pizza.count * pizza.price);
+        }
+        return total;
+    }
+    
     renderPaymentButton() {
         if (this.props.pizzas.pizza.length > 0) {
             return (

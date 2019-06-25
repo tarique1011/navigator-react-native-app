@@ -6,8 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "build-ios": "react-native bundle --platform='ios' --dev=false --entry-file='demo.js' --bundle-output='ios/main.jsbundle'",
-    "build-android": "react-native bundle --platform='android' --dev=false --entry-file='demo.js' --bundle-output='android/app/src/main/assets/index.android.bundle'",
-    "postinstall": "node ./BabelPostScript.js"
+    "build-android": "react-native bundle --platform='android' --dev=false --entry-file='demo.js' --bundle-output='android/app/src/main/assets/index.android.bundle'"
   },
   "dependencies": {
     "eslint-config-rallycoding": "^3.2.0",
