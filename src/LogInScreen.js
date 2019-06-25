@@ -78,7 +78,7 @@ class LogInScreen extends Component {
                                 alignItems: 'center', 
                                 justifyContent: 'center' }}
                     >
-                        <Text style={styles.text}>Joe's Pizza</Text>
+                        <Text style={styles.text}>Joe Pizza</Text>
                         <TextInput 
                             underlineColorAndroid='#fff'
                             style={styles.input} 

@@ -44,7 +44,7 @@ export default class Loading extends Component {
                 >
                 <View style={cover} />
                     <View style={topView}>
-                        <Text style={label}>Joe's Pizza</Text>
+                        <Text style={label}>Joe Pizza</Text>
                     </View>  
                 <View>
                     {this.renderBottomView()}
