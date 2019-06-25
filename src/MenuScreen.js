@@ -26,43 +26,7 @@ class MenuScreen extends Component {
         this.state = {
             fetching: true,
             button: true,
-            pizza: [
-                {
-                    id: 1,
-                    name: 'Double Cheese Pizza',
-                    count: 0,
-                    price: 100,
-                    source: Images.pizza1.source
-                },
-                {
-                    id: 2,
-                    name: 'Cheese and Corn Pizza',
-                    count: 0,
-                    price: 150,
-                    source: Images.pizza2.source
-                },
-                {
-                    id: 3,
-                    name: 'Fresh Veggie',
-                    count: 0,
-                    price: 200,
-                    source: Images.pizza3.source
-                },
-                {
-                    id: 4,
-                    name: 'Veg Supreme',
-                    count: 0,
-                    price: 250,
-                    source: Images.pizza4.source
-                },
-                {
-                    id: 5,
-                    name: 'Non Veg Supreme',
-                    count: 0,
-                    price: 300,
-                    source: Images.pizza5.source
-                }
-            ],
+            pizza: [...this.props.pizzas.listOfPizzas],
             lastorder: []
         };
     }
@@ -87,6 +51,9 @@ class MenuScreen extends Component {
                         this.setState({ fetching: false });
                     }
                 });
+            if (this.props.pizzas.clear) {
+                this.setState({ pizza: this.props.pizza.listOfPizzas });
+            }
     }
 
     getImageById(id) {
