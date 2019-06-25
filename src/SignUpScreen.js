@@ -85,7 +85,6 @@ class SignUpScreen extends Component {
         const { date, minDate, maxDate } = this.state;
         if (this.state.loading) {
             return (
-                // eslint-disable-next-line max-len
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
                     <Text style={{ fontSize: 20, color: 'black', marginBottom: 20 }}>
                         Please Wait
@@ -145,7 +144,7 @@ class SignUpScreen extends Component {
                             name="calendar" 
                             onPress={() => this.datepicker({ date, maxDate, minDate })}
                             size={26} 
-                            color='gray' 
+                            color='gray'
                             style={styles.calendarIcon} 
                         />
                     </View>
