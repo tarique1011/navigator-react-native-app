@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, Dimensions, TouchableOpacity, TextInput, Animated } from 'react-native';
+import { View, Text, FlatList, Dimensions, TouchableOpacity, TextInput, DeviceEventEmitter } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
@@ -104,8 +104,6 @@ class CartScreen extends Component {
                             },
                             shadowRadius: 2,
                             shadowOpacity: 0.5,
-                            marginLeft: 5,
-                            marginRight: 5,
                             elevation: 3
                          }}
                     >
@@ -114,6 +112,26 @@ class CartScreen extends Component {
                             <Text style={{ fontSize: 18 }}>{this.state.city}</Text>
                             <Text style={{ fontSize: 18 }}>{this.state.pincode}</Text>
                         </View>
+                        <TouchableOpacity 
+                            style={{
+                                marginTop: 10,
+                                width: 150,
+                                height: 50,
+                                backgroundColor: '#9e0606',
+                                borderRadius: 5,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                alignSelf: 'flex-end'
+                            }}
+                            onPress={() => this.setState({ 
+                                                    address: false,
+                                                    flat: '',
+                                                    locality: '',
+                                                    city: '',
+                                                    pincode: '' })}
+                        >
+                            <Text style={{ color: 'white', fontSize: 18 }}>Change Address</Text>
+                        </TouchableOpacity>
                 </View>
             );
         }
@@ -162,7 +180,7 @@ class CartScreen extends Component {
                                 {this.state.addressError}
                             </Text>
                             <TouchableOpacity 
-                                style={{ marginTop: 15, 
+                                style={{ marginTop: 10, 
                                     backgroundColor: '#9e0606',
                                     width: '25%',
                                     height: 40,
@@ -170,8 +188,7 @@ class CartScreen extends Component {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     borderColor: 'black',
-                                    borderRadius: 10,
-                                    borderWidth: 2 }}
+                                    borderRadius: 10 }}
                                 onPress={() => this.onPressAddressButton()}
                             >
                                 <Text style={{ fontSize: 18, color: 'white' }}>Add</Text>
@@ -196,7 +213,7 @@ class CartScreen extends Component {
                     pizza: this.props.pizzas.pizza
                 });
             this.setState({ isVisible: true });
-            this.props.resetMenu();
+            DeviceEventEmitter.emit('ResetMenu');
         } else {
             this.setState({ addressError: 'Please add an address!' });
         }
