@@ -1,4 +1,4 @@
-
+/* eslint-disable no-undef */
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, DatePickerAndroid } from 'react-native';
 import { connect } from 'react-redux';
