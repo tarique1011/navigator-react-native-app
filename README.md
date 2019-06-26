@@ -4,10 +4,9 @@ A react native application for ordering pizza.
 
 ### To run this project 
 
-`git clone
-
-cd Project
-
+```
+git clone https://github.com/tarique1011/pizza-delivery-app.git
+cd pizza-delivery-app
 npm install
-
-npm start`
+npm start
+```
