@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, Dimensions, TouchableOpacity, TextInput, DeviceEventEmitter } from 'react-native';
+import { View, 
+        Text, 
+        FlatList, 
+        Dimensions, 
+        TouchableOpacity, 
+        TextInput, 
+        DeviceEventEmitter } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
@@ -27,37 +33,6 @@ class CartScreen extends Component {
         };   
     }
 
-    renderCart() {
-        if (this.props.pizzas.pizza.length > 0) {
-            return (
-                <View>
-                    <View>
-                        <FlatList 
-                            data={this.props.pizzas.pizza}
-                            renderItem={({ item }) => (
-                                <Item 
-                                    count={item.count}
-                                    title={item.name}
-                                    price={item.price}
-                                />
-                            )} 
-                                keyExtractor={item => item.id}
-                        />
-                    </View>
-                    
-                    {this.renderAddress()}
-
-                </View>
-            );
-        }
-
-        return (
-            <View style={{ alignSelf: 'center', marginTop: 100 }}>
-                <Text style={{ fontSize: 20 }}>You have no order in your cart</Text>
-            </View>
-        );
-    }
-
     onPressAddressButton() {
          const { flat, locality, city, pincode } = this.state;
          if (flat === '' || city === '' || locality === '' || pincode === '') {
@@ -65,6 +40,28 @@ class CartScreen extends Component {
          } else {
              this.setState({ address: true });
          }
+    }
+
+    orderPizza() {
+        if (this.state.address) {
+            const email = firebase.auth().currentUser.email;
+            const userId = email.split('@')
+                            .join('')
+                            .split('.')
+                            .join('')
+                            .split('_')
+                            .join('');
+            firebase
+                .database()
+                .ref(`/lastorder/${userId}`)
+                .set({
+                    pizza: this.props.pizzas.pizza
+                });
+            this.setState({ isVisible: true });
+            DeviceEventEmitter.emit('ResetMenu');
+        } else {
+            this.setState({ addressError: 'Please add an address!' });
+        }
     }
 
     renderAddress() {
@@ -188,27 +185,37 @@ class CartScreen extends Component {
         );
     }
 
-    orderPizza() {
-        if (this.state.address) {
-            const email = firebase.auth().currentUser.email;
-            const userId = email.split('@')
-                            .join('')
-                            .split('.')
-                            .join('')
-                            .split('_')
-                            .join('');
-            firebase
-                .database()
-                .ref(`/lastorder/${userId}`)
-                .set({
-                    pizza: this.props.pizzas.pizza
-                });
-            this.setState({ isVisible: true });
-            DeviceEventEmitter.emit('ResetMenu');
-        } else {
-            this.setState({ addressError: 'Please add an address!' });
+    renderCart() {
+        if (this.props.pizzas.pizza.length > 0) {
+            return (
+                <View>
+                    <View>
+                        <FlatList 
+                            data={this.props.pizzas.pizza}
+                            renderItem={({ item }) => (
+                                <Item 
+                                    count={item.count}
+                                    title={item.name}
+                                    price={item.price}
+                                />
+                            )} 
+                                keyExtractor={item => item.id}
+                        />
+                    </View>
+                    
+                    {this.renderAddress()}
+
+                </View>
+            );
         }
+
+        return (
+            <View style={{ alignSelf: 'center', marginTop: 100 }}>
+                <Text style={{ fontSize: 20 }}>You have no order in your cart</Text>
+            </View>
+        );
     }
+
 
      renderTotal() {
         let total = 0;
@@ -217,7 +224,7 @@ class CartScreen extends Component {
         }
         return total;
     }
-    
+
     renderPaymentButton() {
         if (this.props.pizzas.pizza.length > 0) {
             return (
