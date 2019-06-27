@@ -3,7 +3,7 @@
 A react native application for ordering pizza.
 
 - Platforms: 
-- [x] Android
+  - [x] Android
 
 ### To run this project 
 
