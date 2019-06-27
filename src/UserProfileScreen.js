@@ -59,7 +59,18 @@ class UserProfileScreen extends Component {
         this.requestCameraPermission();
     }
 
- render() {
+    handleLogOut() {
+        firebase
+            .auth()
+            .signOut();
+        const resetAction = StackActions.reset({
+			index: 0,
+			actions: [NavigationActions.navigate({ routeName: 'Loading' })]
+		});
+		this.props.navigation.dispatch(resetAction);
+    }
+
+    render() {
         console.warn(this.userInfo);
         console.warn(firebase.currentUser);
         let username = '';
@@ -107,7 +118,7 @@ class UserProfileScreen extends Component {
                     </View>
                  </View>
                </View>
-              <Button title="sign Out" onPress={async ()=>{return( await firebase.auth().signOut(),this.props.navigation.navigate('Loading'))}}/>
+              <Button title="sign Out" onPress={() => this.handleLogOut()} />
                 
             </View>
 
