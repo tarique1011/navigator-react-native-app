@@ -11,11 +11,9 @@ class UserProfileScreen extends Component {
         this.state = {
             loading: false,
             modalVisible: false,
-            avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Tom_Cruise_avp_2014_4.jpg/170px-Tom_Cruise_avp_2014_4.jpg'
+            avatar: 'https://qph.fs.quoracdn.net/main-qimg-87001d2ce810c2f48c97032cbc905939.webp'
         };
     }
-
-
 
     componentDidMount() {
         const recentPostsRef = firebase.database().ref('/UsersDetail');
