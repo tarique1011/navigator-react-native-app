@@ -51,11 +51,13 @@ class MenuScreen extends Component {
                         .on('value', (snapshot) => {
                             if (snapshot.val() !== null) {
                                 this.setState({ lastorder: [...snapshot.val().pizza] });
+                                this.setState({ fetching: false });
                             }
                         });
             DeviceEventEmitter.addListener('ResetMenu', this.ResetMenu.bind(this));
+        } else {
+            this.setState({ fetching: false });
         }
-        this.setState({ fetching: false });
     }
 
     getImageById(id) {
