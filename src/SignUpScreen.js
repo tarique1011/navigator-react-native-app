@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, DatePickerAndroid } from 'react-native';
 import { connect } from 'react-redux';
@@ -11,9 +10,9 @@ import { userUpdate } from './actions';
 import anim from './animations/splashy-loader.json';
 
 class SignUpScreen extends Component {
-	static navigationOptions = {
-		title: 'Sign Up'
-	};
+    static navigationOptions = {
+        title: 'Sign Up'
+    };
 
     constructor(props) {
         super(props);
@@ -29,48 +28,47 @@ class SignUpScreen extends Component {
             loading: false
         };
     }
-      
-    datepicker= async (options) => {
+
+    datepicker = async (options) => {
         try {
             const { action, year, month, day } = await DatePickerAndroid.open(options);
             if (action === DatePickerAndroid.dismissedAction) {
                 this.setState({ dob: 'Date Of Birth' });
             } else {
-              const date = new Date(year, month, day);
-              this.setState({ dob: date.toLocaleDateString() });
-                  }
-            } catch ({ message }) {
-              // eslint-disable-next-line no-undef
-              alert(message);
+                const date = new Date(year, month, day);
+                this.setState({ dob: date.toLocaleDateString() });
+            }
+        } catch ({ message }) {
+            alert(message);
         }
-      }
-    
+    }
+
     handleSignUp = () => {
-		this.setState({ loading: true });
-		firebase
-			.auth()
-			.createUserWithEmailAndPassword(this.state.email, this.state.password)
-			.then(this.OnSignUpSuccess)
-			.catch(error => this.setState({ error: error.message, loading: false }));
+        this.setState({ loading: true });
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then(this.OnSignUpSuccess)
+            .catch(error => this.setState({ error: error.message, loading: false }));
     };
-    
+
     OnSignUpSuccess = () => {
-		firebase
-			.database()
-			.ref('/UsersDetail')
-			.push({
-				FirstName: this.state.name,
-				DOB: this.state.dob,
-				Email: this.state.email,
-				Password: this.state.password
-			});
-		this.setState({ loading: false });
-		const resetAction = StackActions.reset({
-			index: 0,
-			actions: [NavigationActions.navigate({ routeName: 'Tab' })]
-		});
-		this.props.navigation.dispatch(resetAction);
-	};
+        firebase
+            .database()
+            .ref('/UsersDetail')
+            .push({
+                FirstName: this.state.name,
+                DOB: this.state.dob,
+                Email: this.state.email,
+                Password: this.state.password
+            });
+        this.setState({ loading: false });
+        const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'Tab' })]
+        });
+        this.props.navigation.dispatch(resetAction);
+    };
 
     renderLoadUp() {
         const { date, minDate, maxDate } = this.state;
@@ -90,9 +88,9 @@ class SignUpScreen extends Component {
                         loop
                     />
                 </View>
-			);
-		}
-			
+            );
+        }
+
         return (
             <KeyboardAwareScrollView
                 keyboardShouldPersistTaps='handled'
@@ -120,7 +118,6 @@ class SignUpScreen extends Component {
                         onChangeText={(name) => this.setState({ name })}
                         value={this.state.name}
                     />
-
                     <View style={styles.calendarView}>
                         <TextInput
                             underlineColorAndroid='#fff'
@@ -131,15 +128,14 @@ class SignUpScreen extends Component {
                         // onChangeText={(dob) => this.setState({ dob })}
                         //value={this.state.dob}
                         />
-                        <Icon 
-                            name="calendar" 
+                        <Icon
+                            name="calendar"
                             onPress={() => this.datepicker({ date, maxDate, minDate })}
-                            size={26} 
+                            size={26}
                             color='gray'
-                            style={styles.calendarIcon} 
+                            style={styles.calendarIcon}
                         />
                     </View>
-
                     <TextInput
                         underlineColorAndroid='#fff'
                         style={styles.input}
@@ -157,7 +153,6 @@ class SignUpScreen extends Component {
                         onChangeText={(password) => this.setState({ password })}
                         value={this.state.password}
                     />
-
                     <TouchableOpacity
                         style={styles.button}
                         onPress={this.handleSignUp}
@@ -248,13 +243,12 @@ const styles = {
         marginBottom: 14
     }
 };
-
 function mapStateToProps(state) {
-	return {
-		user: state.user
-	};
+    return {
+        user: state.user
+    };
 }
 export default connect(
-	mapStateToProps,
-	{ userUpdate }
+    mapStateToProps,
+    { userUpdate }
 )(SignUpScreen);

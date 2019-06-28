@@ -135,7 +135,7 @@ class UserProfileScreen extends Component {
 					}
 				});
 			} else {
-				console.warn('Camera permission denied');
+				//console.warn('Camera permission denied');
 			}
 		} catch (err) {
 			console.warn(err);
@@ -191,6 +191,7 @@ class UserProfileScreen extends Component {
 								color: '#ffa859'
 							}}
 						>
+
 							Hello,
 						</Text>
 						{username}
@@ -200,7 +201,7 @@ class UserProfileScreen extends Component {
 					<View style={styles.informationCommonViewContainer}>
 						<View style={styles.commonDetailsViewContainer}>
 							<Icon name="user" size={25} style={styles.commonDetailsIconContainer} />
-							<Text style={styles.commonDetailsText}> NAME </Text>
+							<Text style={styles.commonDetailsText}>NAME</Text>
 							<Text
 								style={{
 									marginLeft: 15
@@ -216,14 +217,15 @@ class UserProfileScreen extends Component {
 									}
 								]}
 							>
-								{username}{' '}
+
+								{username}
 							</Text>
 						</View>
 					</View>
 					<View style={styles.informationCommonViewContainer}>
 						<View style={styles.commonDetailsViewContainer}>
 							<Icon name="envelope" size={23} style={styles.commonDetailsIconContainer} />
-							<Text style={styles.commonDetailsText}> Email </Text>
+							<Text style={styles.commonDetailsText}>Email</Text>
 							<Text
 								style={{
 									marginLeft: 15
@@ -239,6 +241,7 @@ class UserProfileScreen extends Component {
 									}
 								]}
 							>
+
 								{userEmail}
 							</Text>
 						</View>
