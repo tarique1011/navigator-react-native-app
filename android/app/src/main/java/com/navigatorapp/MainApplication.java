@@ -6,6 +6,7 @@ import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.imagepicker.ImagePickerPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -29,7 +30,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new LottiePackage(),
               new ImagePickerPackage(),
-            new VectorIconsPackage(),
+              new RNFetchBlobPackage(),
+              new VectorIconsPackage(),
             new RNGestureHandlerPackage()
       );
     }
