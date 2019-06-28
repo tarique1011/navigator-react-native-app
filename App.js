@@ -72,6 +72,7 @@ const AppNavigator = createStackNavigator({
   Loading: LoadingScreen,
   SignIn: LogInScreen,
   SignUp: SignUpScreen,
+  Menu: MenuScreen,
   Tab: {
     screen: TabNavigator,
     navigationOptions: {

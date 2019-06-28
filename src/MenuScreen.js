@@ -10,6 +10,7 @@ import {
         DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
 import { StackActions, NavigationActions } from 'react-navigation';
+import Modal from 'react-native-modal';
 import firebase from 'firebase';
 import { CardSection } from './components';
 import { Images } from './images';
@@ -29,31 +30,36 @@ class MenuScreen extends Component {
             fetching: true,
             button: true,
             pizza: [...listOfPizzas],
-            lastorder: []
+            lastorder: [],
+            isVisible: false
         };
     }
 
     componentDidMount() {
-        const email = firebase.auth().currentUser.email;
-            const userId = email.split('@')
-                            .join('')
-                            .split('.')
-                            .join('')
-                            .split('_')
-                            .join('');
-            
-            firebase
-                .database()
-                .ref(`/lastorder/${userId}`)
-                .on('value', (snapshot) => {
-                    if (snapshot.val() !== null) {
-                        this.setState({ lastorder: [...snapshot.val().pizza] });
-                        this.setState({ fetching: false });
-                    } else {
-                        this.setState({ fetching: false });
-                    }
-                });
-    DeviceEventEmitter.addListener('ResetMenu', this.ResetMenu.bind(this));
+        if (firebase.auth().currentUser) {
+                const email = firebase.auth().currentUser.email;
+                    const userId = email.split('@')
+                                    .join('')
+                                    .split('.')
+                                    .join('')
+                                    .split('_')
+                                    .join('');
+                    
+                    firebase
+                        .database()
+                        .ref(`/lastorder/${userId}`)
+                        .on('value', (snapshot) => {
+                            if (snapshot.val() !== null) {
+                                this.setState({ lastorder: [...snapshot.val().pizza] });
+                                this.setState({ fetching: false });
+                            } else {
+                                this.setState({ fetching: false });
+                            }
+                        });
+            DeviceEventEmitter.addListener('ResetMenu', this.ResetMenu.bind(this));
+        } else {
+            this.setState({ fetching: false });
+        }
     }
 
     getImageById(id) {
@@ -87,31 +93,33 @@ class MenuScreen extends Component {
     }
 
     renderCounter(index) {
-        if (this.state.pizza[index].count !== 0) {
+        if (firebase.auth().currentUser) {
+            if (this.state.pizza[index].count !== 0) {
+                return (
+                        <Counter 
+                            counter={this.state.pizza[index].count} 
+                            onPressIncrement={() => this.incrementCounter(index)} 
+                            onPressDecrement={() => this.decrementCounter(index)}
+                        />
+                );
+            }
+
             return (
-                    <Counter 
-                        counter={this.state.pizza[index].count} 
-                        onPressIncrement={() => this.incrementCounter(index)} 
-                        onPressDecrement={() => this.decrementCounter(index)}
-                    />
+                <TouchableOpacity 
+                    style={styles.counterAdd}
+                    onPress={() => this.incrementCounter(index)}
+                >
+                        <Text 
+                            style={{
+                                fontSize: 15,
+                                color: 'white'
+                            }}
+                        >
+                            Add
+                        </Text>
+                </TouchableOpacity>
             );
         }
-
-        return (
-            <TouchableOpacity 
-                style={styles.counterAdd}
-                onPress={() => this.incrementCounter(index)}
-            >
-                    <Text 
-                        style={{
-                            fontSize: 15,
-                            color: 'white'
-                        }}
-                    >
-                        Add
-                    </Text>
-            </TouchableOpacity>
-        );
     }
 
     renderItem(id, source) {
@@ -222,6 +230,46 @@ class MenuScreen extends Component {
         this.props.navigation.navigate('Cart');
     }
 
+    OrderNow() {
+        this.setState({ isVisible: true });
+    }
+
+    renderAddToCartButton() {
+        if (firebase.auth().currentUser) {
+            return (
+                <TouchableOpacity 
+                    style={styles.addToCartButton}
+                    onPress={() => this.AddToCart()}
+                >
+                    <Text 
+                        style={{ fontSize: 20, 
+                        fontWeight: 'bold', 
+                        fontFamily: 'sans-serif',
+                        color: 'white' }}
+                    >
+                        Add To Cart
+                    </Text>
+                </TouchableOpacity>
+            );
+        }
+
+        return (
+                <TouchableOpacity 
+                    style={styles.addToCartButton}
+                    onPress={() => this.OrderNow()}
+                >
+                    <Text 
+                        style={{ fontSize: 20, 
+                        fontWeight: 'bold', 
+                        fontFamily: 'sans-serif',
+                        color: 'white' }}
+                    >
+                        Order Now
+                    </Text>
+                </TouchableOpacity>
+        );
+    }
+
     render() {
     const { pizza } = this.state;
 
@@ -283,20 +331,57 @@ class MenuScreen extends Component {
                 keyExtractor={item => item.id}
             />
 
-            <TouchableOpacity 
-                style={styles.addToCartButton}
-                onPress={() => this.AddToCart()}
+            {this.renderAddToCartButton()} 
+
+            <Modal  
+                isVisible={this.state.isVisible}
+                onBackdropPress={() => this.setState({ isVisible: false })}
+                animationIn='slideInUp'
+                animationOut='slideOutDown'
+            >
+            <View 
+                style={{
+                    width: 350,
+                    height: 150,
+                    backgroundColor: 'white',
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                    justifyContent: 'space-around'
+                }}
             >
                 <Text 
-                    style={{ fontSize: 20, 
-                    fontWeight: 'bold', 
-                    fontFamily: 'sans-serif',
-                    color: 'white' }}
+                    style={{
+                        color: 'black',
+                        fontSize: 20
+                    }}
                 >
-                    Add To Cart
+                    Please signup or login to order
                 </Text>
-            </TouchableOpacity>
-        
+                <TouchableOpacity 
+                    style={{
+                        width: 60,
+                        height: 30,
+                        backgroundColor: '#9e0606',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 4
+                    }}
+                    onPress={() => {
+                        this.setState({ isVisible: false });
+                        this.props.navigation.navigate('Loading'); 
+                    }}
+                >
+                    <Text 
+                        style={{
+                            color: 'white',
+                            fontSize: 18
+                        }}
+                    >
+                        OK
+                    </Text>
+                </TouchableOpacity>
+            </View>
+            </Modal>
 
         </ScrollView>
         

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
-import { View, Text, Image, PermissionsAndroid } from 'react-native';
+import { StackActions, NavigationActions } from 'react-navigation';
+import { View, Text, Image, Button, PermissionsAndroid } from 'react-native';
 import firebase from 'firebase';
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -83,6 +83,19 @@ class UserProfileScreen extends Component {
 			});
 	};
 
+	handleLogOut() {
+		firebase.auth().signOut();
+		const resetAction = StackActions.reset({
+			index: 0,
+			actions: [
+				NavigationActions.navigate({
+					routeName: 'Loading'
+				})
+			]
+		});
+		this.props.navigation.dispatch(resetAction);
+	}
+
 	storeReference = () => {
 		const email = firebase.auth().currentUser.email;
 		const userId = email
@@ -156,7 +169,13 @@ class UserProfileScreen extends Component {
 				<View style={styles.imageHeaderContainer}>
 					<View style={styles.imageContainer}>
 						<View style={styles.imageViewConatiner}>
-							<Image source={{ uri: this.state.avatar }} style={styles.imageStyle} resizeMode="cover" />
+							<Image
+								source={{
+									uri: this.state.avatar
+								}}
+								style={styles.imageStyle}
+								resizeMode="cover"
+							/>
 							<Icon
 								name="edit"
 								size={20}
@@ -177,7 +196,6 @@ class UserProfileScreen extends Component {
 						{username}
 					</Text>
 				</View>
-
 				<View style={styles.informationContainer}>
 					<View style={styles.informationCommonViewContainer}>
 						<View style={styles.commonDetailsViewContainer}>
@@ -198,11 +216,10 @@ class UserProfileScreen extends Component {
 									}
 								]}
 							>
-								{username}
+								{username}{' '}
 							</Text>
 						</View>
 					</View>
-
 					<View style={styles.informationCommonViewContainer}>
 						<View style={styles.commonDetailsViewContainer}>
 							<Icon name="envelope" size={23} style={styles.commonDetailsIconContainer} />
@@ -226,7 +243,6 @@ class UserProfileScreen extends Component {
 							</Text>
 						</View>
 					</View>
-
 					<View style={styles.informationCommonViewContainer}>
 						<View style={styles.commonDetailsViewContainer}>
 							<Icon name="calendar" size={23} style={styles.commonDetailsIconContainer} />
@@ -250,21 +266,14 @@ class UserProfileScreen extends Component {
 							</Text>
 						</View>
 					</View>
-
 					<View style={styles.informationLastViewContainer} />
-
 					<View
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center'
 						}}
 					>
-						<TouchableOpacity
-							onPress={async () => {
-								return await firebase.auth().signOut(), this.props.navigation.navigate('Loading');
-							}}
-							style={styles.logOutView}
-						>
+						<TouchableOpacity onPress={() => this.handleLogOut()} style={styles.logOutView}>
 							<Text style={styles.logOutTextStyle}> Log Out </Text>
 						</TouchableOpacity>
 					</View>
