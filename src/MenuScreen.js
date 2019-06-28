@@ -52,6 +52,8 @@ class MenuScreen extends Component {
                             if (snapshot.val() !== null) {
                                 this.setState({ lastorder: [...snapshot.val().pizza] });
                                 this.setState({ fetching: false });
+                            } else {
+                                this.setState({ fetching: false });
                             }
                         });
             DeviceEventEmitter.addListener('ResetMenu', this.ResetMenu.bind(this));

@@ -59,6 +59,7 @@ class CartScreen extends Component {
                 });
             this.setState({ isVisible: true });
             DeviceEventEmitter.emit('ResetMenu');
+            DeviceEventEmitter.emit('orderReceived');
         } else {
             this.setState({ addressError: 'Please add an address!' });
         }
